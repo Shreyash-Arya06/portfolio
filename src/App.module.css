@@ -1,0 +1,160 @@
+.app {
+  display: flex;
+  height: 500px;
+  width: 675px;
+  min-height: 500px;
+  min-width: 650px;
+  justify-content: space-between;
+  margin: auto;
+  background: #262442;
+  align-items: center;
+  border-radius: 50px;
+  padding: 0 25px;
+}
+
+.leftPane {
+  display: flex;
+  height: 250px;
+  width: auto;
+  overflow: hidden;
+  justify-items: center;
+  box-shadow: #F06292 5px 5px 8px;
+  border-radius: 50%;
+}
+
+.leftPane img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.rightPane {
+  display: flex;
+  flex-direction: column;
+  width: 340px;
+}
+
+.rightPane p {
+  margin: 0;
+  line-height: 1em;
+  margin-bottom: 10px;
+}
+
+.textSection {
+  margin-bottom: 25px;
+}
+
+.firstLine {
+  color: #ffffff;
+  font-size: 2.5em;
+}
+
+.name {
+  color: #F06292;
+  font-size: 2.5em;
+  font-weight: bold;
+  letter-spacing: 0px;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 2px solid #F06292;
+  margin-bottom: 20px;
+  animation: typingErase 8s steps(13, end) infinite,
+  blink-caret 0.65s step-end infinite;
+}
+
+@keyframes typingErase {
+  0% {
+    width: 0;
+  }
+  50% {
+    width: 13ch; /* fully typed */
+  }
+  80% {
+    width: 13ch; /* wait before erasing */
+  }
+  100% {
+    width: 0; /* erased */
+  }
+}
+
+/* Cursor blink */
+@keyframes blink-caret {
+  from, to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: #F06292;
+  }
+}
+
+.branch,
+.college,
+.introduction {
+  color: #ffffff;
+  font-size: 0.9em;
+  padding-left: 10px;
+}
+
+.college {
+  margin-bottom: 40px;
+}
+
+.proceed {
+  display: flex;
+  justify-content: center;
+}
+
+.proceedButton {
+  /*background: #a370f0;*/
+  background: linear-gradient(to left, rgba(106, 27, 154, 1) 15%, rgba(66, 165, 245, 1) 100%);
+  color: white;
+  font-family: inherit;
+  padding: 0.35em;
+  padding-left: 1.2em;
+  font-size: 17px;
+  font-weight: 500;
+  border-radius: 0.9em;
+  border: none;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  box-shadow: inset 0 0 1.6em -0.6em #714da6;
+  overflow: hidden;
+  position: relative;
+  height: 2.8em;
+  padding-right: 3.3em;
+  cursor: pointer;
+}
+
+.proceedButton .btIcon {
+  background: white;
+  margin-left: 1em;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.2em;
+  width: 2.2em;
+  border-radius: 0.7em;
+  right: 0.3em;
+  transition: all 0.3s;
+}
+
+.proceedButton:hover .btIcon {
+  width: calc(100% - 0.6em);
+}
+
+.proceedButton .btIcon svg {
+  width: 1.1em;
+  transition: transform 0.3s;
+  color: #7b52b9;
+}
+
+.proceedButton:hover .btIcon svg {
+  transform: translateX(0.1em);
+}
+
+.proceedButton:active .btIcon {
+  transform: scale(0.95);
+}

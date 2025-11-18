@@ -1,0 +1,75 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 32px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 80px;
+  background: transparent;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0%, rgba(256, 256, 256, 0.10) 100%) 20%;
+}
+
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  color: #e5f0ff;
+}
+
+.profilePic {
+  display: flex;
+  border: 3px groove #a370f0;
+  border-radius: 50%;
+  /*box-shadow: 2px 4px 8px #a370f0;*/
+}
+
+.profilePic img {
+  height: 50px;
+  width: auto;
+  border-radius: 50%;
+}
+
+.name {
+  font-size: 2em;
+  font-weight: 600;
+  color: #F06292;
+  text-shadow: 4px 4px 8px #4b4453;
+}
+
+.navbar a {
+  text-decoration: none;
+}
+
+.rightSection {
+  position: relative;
+  display: flex;
+}
+
+.rightSection a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 35px;
+  width: 85px;
+}
+
+.navOption {
+  color: #D9D9D9;
+  font-weight: 400;
+}
+
+.navOptionActive {
+  color: #9F6DEB;
+  font-weight: 600;
+}
+
+.underline {
+  position: absolute;
+  bottom: 20px;
+  height: 2px;
+  background-color: #9F6DEB;
+  transition: left 0.25s ease, width 0.25s ease;
+  border-radius: 2px;
+}

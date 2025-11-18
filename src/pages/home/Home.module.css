@@ -1,0 +1,43 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
+  height: 100%;
+  width: 100%;
+  max-width: 1000px;
+  gap: 20px;
+}
+
+.topSection {
+  display: flex;
+  height: 350px;
+  width: 100%;
+  gap: 20px;
+}
+
+.topLeftSection {
+  display: flex;
+  flex-direction: column;
+  background: rgba(0, 0, 0, 0.5);
+  height: 100%;
+  flex-grow: 1;
+  border-radius: 20px;
+}
+
+.topRightSection {
+  display: flex;
+  flex-direction: column;
+  background: rgba(0, 0, 0, 0.5);
+  height: 100%;
+  width: 270px;
+  border-radius: 20px;
+}
+
+.bottomSection {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+}

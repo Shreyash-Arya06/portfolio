@@ -1,0 +1,14 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+.resumeFrame {
+  width: 100%;
+  height: 100%;
+  border: none;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  border-radius: 10px;
+}
