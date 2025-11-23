@@ -1,7 +1,6 @@
 import React from "react";
 import {useNavigate} from "react-router-dom";
 
-import Navbar from "./components/navbar/Navbar.jsx";
 import style from "./App.module.css";
 import photo from "./assets/landingPhoto.svg";
 
@@ -10,22 +9,28 @@ const App = () => {
 
   return (
     <>
-      {/*<Navbar />*/}
       <div className={style.app}>
         <div className={style.leftPane}>
           <img src={photo} alt="Shreyash"/>
         </div>
+
         <div className={style.rightPane}>
           <div className={style.textSection}>
             <div className={style.firstLine}><p>Hi, I'm</p></div>
-            <div className={style.name}><p>SHREYASH&nbsp;&nbsp;ARYA</p></div>
-            <div className={style.branch}><p>Pre-final year,</p> <p>Mathematics and Computing</p></div>
+
+            {/* Note: &nbsp; is crucial for monospace char counting */}
+            <div className={style.name}><p>SHREYASH&nbsp;ARYA</p></div>
+
+            <div className={style.branch}>
+              <p>Pre-final year,</p>
+              <p>Mathematics and Computing</p>
+            </div>
             <div className={style.college}><p>IIT (BHU), Varanasi</p></div>
-            {/*<div className={style.introduction}><p>Intro.........</p></div>*/}
           </div>
+
           <div className={style.proceed}>
             <button className={style.proceedButton} onClick={() => navigate("/home")}>
-              Get started
+              <span>Get started</span> {/* Wrapped text in span for alignment */}
               <div className={style.btIcon}>
                 <svg
                   height="24"
@@ -47,5 +52,4 @@ const App = () => {
     </>
   )
 }
-
-export default App
+export default App;
