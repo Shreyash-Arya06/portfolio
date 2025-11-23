@@ -3,7 +3,7 @@ import React from "react";
 import style from "./Footer.module.css";
 import insta from "../../assets/insta.svg";
 import linkedin from "../../assets/linkedin.svg";
-import book from "../../assets/book.svg";
+import fable from "../../assets/fable.svg";
 import github from "../../assets/github.svg";
 const Footer = () => {
   return (
@@ -19,8 +19,8 @@ const Footer = () => {
           <div className={style.icons}>
             <a href="https://github.com/Shreyash-Arya06"> <img src={github} alt="GitHub" /> </a>
             <a href="https://www.linkedin.com/in/shreyash-arya/"> <img src={linkedin} alt="LinkedIn" /> </a>
-            <img src={insta} alt="Instagram" />
-            <img src={book} alt="Fabble" />
+            <a href="https://www.instagram.com/shreyash.arya16/"> <img src={insta} alt="Instagram" /> </a>
+            <a href="https://fable.co/shreyash-283825741495"> <img src={fable} alt="Fable" /> </a>
           </div>
         </div>
       </footer>
