@@ -11,7 +11,6 @@ const AdminLayout = () => {
   const [hoveredPos, setHoveredPos] = useState(null);
   const [activePos, setActivePos] = useState(null);
 
-// refs for sidebar items
   const sidebarRefs = {
     "update-about": useRef(null),
     "edit-skills": useRef(null),
@@ -44,19 +43,15 @@ const AdminLayout = () => {
 
     const debouncedUpdate = debounce(updateActivePos, 80);
 
-    // Run on mount + route change
     updateActivePos();
 
-    // Resize listener
     window.addEventListener("resize", debouncedUpdate);
 
-    // Scroll listener
     const sidebarEl = document.querySelector(`.${style.optionsSection}`);
     if (sidebarEl) {
       sidebarEl.addEventListener("scroll", debouncedUpdate);
     }
 
-    // Cleanup
     return () => {
       window.removeEventListener("resize", debouncedUpdate);
       if (sidebarEl) {
