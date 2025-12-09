@@ -2,16 +2,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  /* Ensures it takes full available height between nav and footer */
   min-height: calc(100vh - 150px);
   padding: 40px 20px;
   width: 100%;
 }
 
-/* Main Card Wrapper */
 .card {
   display: flex;
-  flex-direction: column; /* Stack on mobile */
+  flex-direction: column;
   width: 100%;
   max-width: 1000px;
   background-color: var(--card-bg, #18181b);
@@ -21,7 +19,6 @@
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
 }
 
-/* ----- Left Panel (Info) ----- */
 .leftPanel {
   flex: 2; /* Takes 40% width on desktop */
   padding: 40px;
@@ -74,7 +71,7 @@
 }
 
 .detailIcon {
-  color: #f06292; /* Pink accent */
+  color: #f06292;
   font-size: 1.2rem;
 }
 
@@ -122,10 +119,8 @@
   filter: invert(1);
 }
 
-
-/* ----- Right Panel (Form) ----- */
 .rightPanel {
-  flex: 3; /* Takes 60% width on desktop */
+  flex: 3;
   padding: 40px;
   background-color: var(--card-bg, #18181b);
 }
@@ -162,8 +157,6 @@
   transition: border-color 0.3s ease;
 }
 
-/* --- AUTOFILL FIX --- */
-/* Forces browser autofill to match the dark theme */
 .inputGroup input:-webkit-autofill,
 .inputGroup textarea:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 30px var(--card-bg, #18181b) inset !important;
@@ -177,7 +170,6 @@
   border-bottom-color: #f06292;
 }
 
-/* Submit Button */
 .submitBtn {
   margin-top: 20px;
   padding: 14px 28px;
@@ -191,7 +183,6 @@
   color: var(--text-primary);
   border: 1px solid rgba(240, 98, 146, 0.5);
   
-  /* Animation setup */
   position: relative;
   overflow: hidden;
   z-index: 1;
@@ -220,8 +211,6 @@
   height: 100%;
 }
 
-
-/* ----- Responsive Design ----- */
 @media (min-width: 768px) {
   .card {
     flex-direction: row;

@@ -6,12 +6,14 @@ import style from "./NotFound.module.css";
 
 const NotFound = () => {
   return (
-    <div className={style.page}>
+    <>
       <Navbar />
-      <div className={style.heading}>404 Not Found</div>
-      <div className={style.text}>Bad Request</div>
+      <div className={style.page}>
+        <div className={style.heading}>404 Not Found</div>
+        <div className={style.text}>Bad Request</div>
+      </div>
       <Footer />
-    </div>
+    </>
   );
 }
 
