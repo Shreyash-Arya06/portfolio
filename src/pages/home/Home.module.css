@@ -1,43 +1,224 @@
 .page {
-  display: flex;
-  flex-direction: column;
-  justify-self: center;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 300px 1fr;
+  grid-template-areas:
+    "info skills"
+    "timeline timeline";
   height: 100%;
   width: 100%;
-  max-width: 1000px;
-  gap: 20px;
+  max-width: 1200px;
+  gap: 25px;
+  padding: 20px;
+  margin: 0 auto;
 }
 
-.topSection {
+.infoSection,
+.skillsSection,
+.timelineSection {
   display: flex;
-  height: 350px;
+  flex-direction: column;
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 25px;
+  padding: 24px;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.infoSection:hover,
+.skillsSection:hover,
+.timelineSection:hover {
+  border-color: rgba(127, 0, 255, 0.5);
+}
+
+.infoSection {
+  grid-area: info;
+}
+
+.skillsSection {
+  grid-area: skills;
+}
+
+.timelineSection {
+  grid-area: timeline;
+}
+
+.aboutTitle p, .skillsTitle p, .timelineTitle p {
+  margin: 0 0 10px 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.aboutInfo {
+  color: var(--text-secondary);
+  overflow-y: auto;
+}
+
+.aboutInfo p {
+  margin: 0 0 8px 0;
+  text-align: justify;
+}
+
+.skillContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-content: flex-start;
+  overflow-y: auto;
+}
+
+.pill {
+  font-size: 0.85rem;
+  padding: 6px 16px;
+  border-radius: 100px;
+  cursor: default;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  background-color: rgba(127, 0, 255, 0.08);
+  border: 1px solid rgba(127, 0, 255, 0.2);
+  color: #e0d0ff;
+}
+
+.pill:hover {
+  background-color: rgba(127, 0, 255, 0.2);
+  border-color: rgba(127, 0, 255, 0.6);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(127, 0, 255, 0.15);
+}
+
+.timelineWrapper {
+  display: flex;
   width: 100%;
-  gap: 20px;
+  align-items: flex-start;
+  margin-top: 20px;
+  overflow-x: auto;
 }
 
-.topLeftSection {
+.timelineItem {
   display: flex;
   flex-direction: column;
-  background: rgba(0, 0, 0, 0.5);
-  height: 100%;
-  flex-grow: 1;
-  border-radius: 20px;
+  align-items: center;
+  text-align: center;
+  flex: 1;
 }
 
-.topRightSection {
-  display: flex;
-  flex-direction: column;
-  background: rgba(0, 0, 0, 0.5);
-  height: 100%;
-  width: 270px;
-  border-radius: 20px;
-}
-
-.bottomSection {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
+.timelineYear {
+  font-size: 0.9rem;
+  font-weight: 700;
   width: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  border-radius: 20px;
+  color: #e0d0ff;
+  margin-bottom: 8px;
+  text-shadow: 0 0 10px rgba(127, 0, 255, 0.3);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  padding: 0 15px 10px 15px;
+}
+
+.timelineDot {
+  width: 12px;
+  height: 12px;
+  background-color: #1a1a1a;
+  border: 2px solid #7F00FF;
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(127, 0, 255, 0.5);
+  transition: transform 0.2s ease;
+  margin-top: -15px;
+  z-index: 2;
+}
+
+.timelineContent {
+  padding: 5px 30px;
+}
+
+.eventTitle {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-wrap: nowrap;
+  margin: 0;
+}
+
+.eventSubtitle {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  text-wrap: nowrap;
+  margin: 4px 0 0 0;
+}
+
+.timelineItem:hover .timelineDot{
+  background-color: #7F00FF;
+  transform: scale(1.3);
+}
+
+@media (max-width: 768px) {
+  .page {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto; 
+    grid-template-areas:
+      "info"
+      "skills"
+      "timeline";
+    height: auto; 
+    padding-bottom: 40px;
+    gap: 15px;
+  }
+
+  .timelineWrapper {
+    flex-direction: column;
+    align-items: center;
+    overflow-x: visible;
+    overflow-y: auto;
+    margin-top: 10px;
+    height: 300px;
+    padding-left: 24px;
+  }
+
+  .timelineItem {
+    flex-direction: row;
+    align-items: flex-start;
+    text-align: left;
+    width: 100%;
+  }
+
+  .timelineYear {
+    width: 70px;
+    text-align: right;
+    border-bottom: none; 
+    padding: 0 15px 0 0; 
+    margin-bottom: 0;
+    flex-shrink: 0;
+    font-size: 0.85rem;
+    align-self: stretch;
+    border-right: 2px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .timelineDot {
+    margin-top: 4px;
+    margin-left: -6px;
+    margin-right: 0;
+    flex-shrink: 0;
+    z-index: 2;
+  }
+
+  .timelineContent {
+    padding: 0 0 30px 15px;
+    text-align: left;
+    flex: 1;
+  }
+
+  .eventTitle,
+  .eventSubtitle {
+    text-wrap: wrap;
+    white-space: normal;
+  }
+
+  .timelineItem:first-of-type .timelineYear,
+  .timelineItem:first-of-type .timelineContent{
+    padding-top: 15px;
+  }
+
+  .timelineItem:first-of-type .timelineDot {
+    margin-top: 19px;
+  }
 }
