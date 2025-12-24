@@ -3,7 +3,7 @@ import React from "react";
 import style from "./Projects.module.css";
 import ProjectCard from "../../components/projectCard/ProjectCard.jsx";
 
-function Projects() {
+const Projects = () => {
   const projects = {
     Project1 : {
       title: "Project 1", // Permit 90 characters only
