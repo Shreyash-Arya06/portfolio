@@ -1,0 +1,146 @@
+.cardContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  /* padding: 10px 0; */
+}
+
+.headerGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.title p {
+  font-family: var(--main-font, sans-serif);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 4px 0;
+  letter-spacing: 0.5px;
+}
+
+.author p {
+  font-family: var(--secondary-font);
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+  font-style: italic;
+  margin: 0;
+}
+
+.titleLine {
+  height: 2px;
+  width: 60%;
+  margin-top: 12px;
+  background: linear-gradient(90deg, #f06292 0%,rgba(127, 0, 255, 0.5) 60%, transparent 100%);
+  border-radius: 2px;
+}
+
+.reviewSection {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+}
+
+.coverSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.bookCoverImg img {
+  width: 120px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.bookCoverImg img:hover {
+  transform: translateY(-5px);
+}
+
+.ratingBadge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 4px 10px;
+  border-radius: 20px;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: var(--main-font, sans-serif);
+  cursor: default;
+}
+
+.reviewContent {
+  flex-grow: 1;
+}
+
+.reviewContent p {
+  font-family: var(--secondary-font, sans-serif);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  text-align: justify;
+  margin: 0;
+}
+
+.separator {
+  width: 80%;
+  height: 2px;
+  margin: 30px auto;
+  background: linear-gradient(
+    90deg, 
+    transparent 0%, 
+    rgba(255, 255, 255, 0.2) 50%, 
+    transparent 100%
+  );
+}
+
+.cardContainer:last-child .separator {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .headerGroup {
+    align-items: center;
+  }
+  
+  .reviewSection {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .coverSection {
+    margin-bottom: 0;
+  }
+
+  .title p, .author p {
+    text-align: center;
+    width: 100%;
+  }
+
+  .titleLine {
+    width: 80%;
+    background: linear-gradient(90deg, #f06292 0%,rgba(127, 0, 255, 1) 100%, transparent 100%);
+  }
+
+  .separator {
+    width: 100%;
+  }
+}
