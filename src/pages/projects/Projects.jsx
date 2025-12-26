@@ -24,9 +24,9 @@ const Projects = () => {
 
   return (
     <>
+    <div className={style.pageContainer}>
       {projectTitle.map((project) => (
-        <div key={project}
-             className={style.projectSection}>
+        <div key={project} className={style.projectSection}>
           <div className={style.projectSectionTitle}>
             <p>{project}</p>
           </div>
@@ -41,6 +41,7 @@ const Projects = () => {
           </div>
         </div>
       ))}
+      </div>
     </>
   );
 }
