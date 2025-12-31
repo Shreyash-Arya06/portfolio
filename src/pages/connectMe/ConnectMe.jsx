@@ -137,7 +137,7 @@ const ConnectMe = () => {
             </div>
             <div className={style.inputGroup}>
               <label htmlFor="message">Message</label>
-              <textarea id="message" name="message" rows="5" required placeholder="Hello, I'd like to talk about..."></textarea>
+              <textarea id="message" name="message" rows="4" required placeholder="Hello, I'd like to talk about..."></textarea>
             </div>
             <button type="submit" className={style.submitBtn}>
               Send Message
