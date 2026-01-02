@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation } from "react-router-dom"; // Assuming react-router-dom
+import { useLocation } from "react-router-dom";
 
 import style from "./Footer.module.css";
 import insta from "../../assets/insta.svg";

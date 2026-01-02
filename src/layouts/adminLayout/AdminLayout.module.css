@@ -8,10 +8,6 @@
   font-family: inherit;
 }
 
-.page p {
-  margin: 0;
-}
-
 .navbar {
   display: flex;
   flex-direction: column;
@@ -22,6 +18,11 @@
   background-color: rgba(15, 15, 17, 0.2);
   border-right: 1px solid rgba(255, 255, 255, 0.05);
   z-index: 1;
+  min-width: 200px;
+}
+
+.navbar p {
+  margin: 0;
 }
 
 .navbar a {
@@ -130,20 +131,190 @@
   border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.loginSection p, .loginSection a {
+.loginSection p,
+.loginSection a {
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   color: #ef4444;
   transition: color 0.2s;
 }
 
-.loginSection p:hover {
+.loginSection p:hover,
+.loginSection a:hover {
   color: #f87171;
 }
 
 .hero {
   flex-grow: 1;
-  padding: 40px;
+  padding: 20px;
   overflow-y: auto;
+}
+
+@media (max-width: 650px) {
+  .page {
+    flex-direction: column;
+    background-image: radial-gradient(circle at 50% 0%, rgba(127, 0, 255, 0.15) 0%, transparent 50%);
+  }
+
+  .navbar {
+    flex-direction: row;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 70px;
+    z-index: 1000;
+    min-width: unset;
+    padding: 10px;
+    border-right: none;
+    background: rgba(15, 15, 17, 0.7);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .topSection {
+    flex-direction: row;
+    margin-bottom: unset;
+    width: auto;
+  }
+
+  .profileImage {
+    height: 50px;
+    width: 50px;
+  }
+
+  .title {
+    display: flex;
+    gap: 5px;
+  }
+
+  .title p:first-child {
+    font-size: 1.1rem;
+  }
+
+  .title p:last-child {
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--text-primary);
+  }
+
+  .loginSection {
+    padding: 0;
+    border: none;
+    width: auto;
+    margin-left: auto;
+    margin-right: 8px;
+  }
+  
+  .loginSection p,
+  .loginSection a {
+    position: relative;
+    color: var(--text-secondary);
+    border: 2px solid var(--text-secondary);
+    border-radius: 20px;
+    padding: 5px 12px;
+    transition: transform 0.2s ease;
+  }
+
+  .loginSection p::after,
+  .loginSection a::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: -6px; 
+    z-index: 1;
+  }
+
+  .loginSection p:hover,
+  .loginSection a:hover {
+    color: var(--text-primary);
+    border-color: var(--text-primary);
+    transform: translateY(-2px);
+  }
+
+  .menuOption {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    cursor: pointer;
+    z-index: 1002;
+    position: relative;
+  }
+
+  .menu {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    z-index: 1001;
+    top: 69px;
+    right: 0;
+    gap: 5px;
+    width: max-content;
+    min-width: 200px;
+    padding: 10px 0;
+    background: rgba(15, 15, 17, 0.9);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: none;
+    border-right: none;
+    border-bottom-left-radius: 20px;
+    clip-path: circle(0px at 80% -20%); 
+    transition: clip-path 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    margin-top: -1px; 
+  }
+
+  .menuOpen {
+    clip-path: circle(180% at 85% -20%);
+  }
+
+  .menu::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #0f0f11;
+  }
+  
+  .menu a {
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    white-space: nowrap;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-align: right;
+    padding: 12px 25px;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+
+  .menu .navOption {
+    line-height: 1;
+  }
+
+  .menu .navOption:hover,
+  .menu .navOptionActive {
+    color: var(--text-primary);
+    padding-right: 35%; 
+    background: rgba(255, 255, 255, 0.03);
+    text-shadow: 0 0 8px rgba(127, 0, 255, 0.4);
+    line-height: 1;
+  }
+
+  .menu .navOptionActive {
+    color: #f06292;
+    font-weight: 600;
+  }
+
+  .hero {
+    margin-top: 70px;
+  }
 }

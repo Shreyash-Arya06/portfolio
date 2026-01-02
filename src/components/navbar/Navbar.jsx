@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { CircleChevronDown, CircleChevronUp } from "lucide-react";
+
 import style from "./Navbar.module.css";
 import profilepic from "../../assets/profilepic.png";
 
@@ -84,9 +85,7 @@ const Navbar = () => {
             <NavLink
               key={key}
               to={`/${key}`}
-              className={({ isActive }) =>
-                isActive ? style.navOptionActive : style.navOption
-              }
+              className={({ isActive }) => isActive ? style.navOptionActive : style.navOption}
               onClick={menuToggle}
             >
               {key.charAt(0).toUpperCase() + key.slice(1).replace("-", " ")}
@@ -115,9 +114,7 @@ const Navbar = () => {
             to={`/${key}`}
             ref={refs[key]}
             onMouseEnter={() => handleHover(key)}
-            className={({ isActive }) =>
-              isActive ? style.navOptionActive : style.navOption
-            }
+            className={({ isActive }) => isActive ? style.navOptionActive : style.navOption}
           >
             {key.charAt(0).toUpperCase() + key.slice(1).replace("-", " ")}
           </NavLink>

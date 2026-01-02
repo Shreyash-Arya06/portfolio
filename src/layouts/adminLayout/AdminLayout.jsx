@@ -1,15 +1,18 @@
 import React, {useState, useRef, useEffect} from "react";
 import {NavLink, Outlet, useLocation} from "react-router-dom";
+import { CircleChevronDown, CircleChevronUp } from "lucide-react";
 
 import style from "./AdminLayout.module.css";
 import photo from "../../assets/profilepic.png";
 
 const AdminLayout = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
   const location = useLocation();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);    // on logging out, the menu conditions remains open, so after logging in, menu appears
   const [hoveredPos, setHoveredPos] = useState(null);
   const [activePos, setActivePos] = useState(null);
+  const [isMobileView, setIsMobileView] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuOptions = [ "update-about", "edit-skills", "edit-timeline", "add-project", "edit-project", "manage-library"];
 
   const sidebarRefs = {
     "update-about": useRef(null),
@@ -19,6 +22,15 @@ const AdminLayout = () => {
     "edit-project": useRef(null),
     "manage-library": useRef(null),
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobileView(window.innerWidth <= 650);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const debounce = (func, delay = 100) => {
     let timeout;
@@ -60,7 +72,6 @@ const AdminLayout = () => {
     };
   }, [location]);
 
-
   const handleHover = (key) => {
     const el = sidebarRefs[key].current;
     if (el) {
@@ -75,10 +86,24 @@ const AdminLayout = () => {
     setHoveredPos(null);
   };
 
+  const menuToggle = () => {
+    if (isLoggedIn) {
+      setIsMenuOpen(!isMenuOpen);
+    }
+    else {
+      alert("Login required");
+    }
+  };
+
+  const logOut = () => {
+    setIsLoggedIn(false);
+    setIsMenuOpen(false);
+  };
+
   return (
     <>
       <div className={style.page}>
-        <div className={style.navbar}>
+        <nav className={style.navbar}>
           <div className={style.topSection}>
             <div className={style.profileImage}>
               <img src={photo} alt="Profile Photo" />
@@ -88,61 +113,58 @@ const AdminLayout = () => {
               <p>Arya</p>
             </div>
           </div>
-          <div className={isLoggedIn? style.optionsSection : style.optionsSectionDisabled}
-               onMouseLeave={handleLeave}>
-            <NavLink to="/admin-actions/update-about"
-                     ref={sidebarRefs["update-about"]}
-                     onMouseEnter={() => handleHover("update-about")}
-                     className={({ isActive }) => `${!isActive ? style.navOption : style.navOptionActive}`}>
-              Update About
-            </NavLink>
-            <NavLink to="/admin-actions/edit-skills"
-                     ref={sidebarRefs["edit-skills"]}
-                     onMouseEnter={() => handleHover("edit-skills")}
-                     className={({ isActive }) => `${!isActive ? style.navOption : style.navOptionActive}`}>
-              Edit Skills
-            </NavLink>
-            <NavLink to="/admin-actions/edit-timeline"
-                     ref={sidebarRefs["edit-timeline"]}
-                     onMouseEnter={() => handleHover("edit-timeline")}
-                     className={({ isActive }) => `${!isActive ? style.navOption : style.navOptionActive}`}>
-              Edit Timeline
-            </NavLink>
-            <NavLink to="/admin-actions/add-project"
-                     ref={sidebarRefs["add-project"]}
-                     onMouseEnter={() => handleHover("add-project")}
-                     className={({ isActive }) => `${!isActive ? style.navOption : style.navOptionActive}`}>
-              Add Project
-            </NavLink>
-            <NavLink to="/admin-actions/edit-project"
-                     ref={sidebarRefs["edit-project"]}
-                     onMouseEnter={() => handleHover("edit-project")}
-                     className={({ isActive }) => `${!isActive ? style.navOption : style.navOptionActive}`}>
-              Edit Project
-            </NavLink>
-            <NavLink to="/admin-actions/manage-library"
-                     ref={sidebarRefs["manage-library"]}
-                     onMouseEnter={() => handleHover("manage-library")}
-                     className={({ isActive }) => `${!isActive ? style.navOption : style.navOptionActive}`}>
-              Manage Library
-            </NavLink>
-            <div
-              className={style.verticalBar}
-              style={{
-                top: (hoveredPos?.top ?? activePos?.top) + "px",
-                height: (hoveredPos?.height ?? activePos?.height) + "px",
-              }}
-            />
-          </div>
+          {!isMobileView && (
+            <div className={isLoggedIn? style.optionsSection : style.optionsSectionDisabled} onMouseLeave={handleLeave}>
+              {menuOptions.map((key) => (
+                <NavLink
+                  key={key}
+                  to={`/admin-actions/${key}`}
+                  ref={sidebarRefs[key]}
+                  onMouseEnter={() => handleHover(key)}
+                  className={({ isActive }) => `${!isActive ? style.navOption : style.navOptionActive}`}
+                >
+                  {key.charAt(0).toUpperCase() + key.slice(1).replace("-", " ")}
+                </NavLink>
+              ))}
+              <div
+                className={style.verticalBar}
+                style={{
+                  top: (hoveredPos?.top ?? activePos?.top) + "px",
+                  height: (hoveredPos?.height ?? activePos?.height) + "px",
+                }}
+              />
+            </div>
+          )}
+          
           <div className={style.loginSection}>
             {!isLoggedIn ? (
-              <NavLink className={style.navOptionActive} onClick={() => setIsLoggedIn(true)}>Login</NavLink>
+              <NavLink onClick={() => setIsLoggedIn(true)}>Login</NavLink>
             ) : (
-              <p className={style.navOptionActive} onClick={() => setIsLoggedIn(false)}>Logout</p>
+              <p onClick={logOut}>Logout</p>
             )}
           </div>
-
-        </div>
+          {isMobileView && (
+            <div className={style.menuOption} onClick={menuToggle}>
+              {!isMenuOpen ? <CircleChevronDown /> : <CircleChevronUp />}
+            </div>
+          )}
+        </nav>
+        {(isMobileView && isLoggedIn) && (
+          <div className={`${style.menu} ${isMenuOpen ? style.menuOpen : ""}`}>
+            {menuOptions.map((key) => (
+                <NavLink
+                  key={key}
+                  to={`/admin-actions/${key}`}
+                  ref={sidebarRefs[key]}
+                  onClick={menuToggle}
+                  onMouseEnter={() => handleHover(key)}
+                  className={({ isActive }) => `${!isActive ? style.navOption : style.navOptionActive}`}
+                >
+                  {key.charAt(0).toUpperCase() + key.slice(1).replace("-", " ")}
+                </NavLink>
+              ))}
+          </div>
+        )}
         <div className={style.hero}>
           <Outlet />
         </div>
