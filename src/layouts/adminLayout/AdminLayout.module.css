@@ -3,7 +3,11 @@
   height: 100%;
   display: flex;
   background-color: #0f0f11;
-  background-image: radial-gradient(circle at 0% 50%, rgba(127, 0, 255, 0.15) 0%, transparent 50%);
+  background-image: radial-gradient(
+    circle at 0% 50%,
+    rgba(127, 0, 255, 0.15) 0%,
+    transparent 50%
+  );
   color: var(--text-primary);
   font-family: inherit;
 }
@@ -109,7 +113,11 @@
   color: var(--text-primary);
   font-weight: 600;
   font-size: 0.95rem;
-  background: linear-gradient(90deg, rgba(127, 0, 255, 0.1) 0%, transparent 100%);
+  background: linear-gradient(
+    90deg,
+    rgba(127, 0, 255, 0.1) 0%,
+    transparent 100%
+  );
 }
 
 .verticalBar {
@@ -154,7 +162,11 @@
 @media (max-width: 650px) {
   .page {
     flex-direction: column;
-    background-image: radial-gradient(circle at 50% 0%, rgba(127, 0, 255, 0.15) 0%, transparent 50%);
+    background-image: radial-gradient(
+      circle at 50% 0%,
+      rgba(127, 0, 255, 0.15) 0%,
+      transparent 50%
+    );
   }
 
   .navbar {
@@ -207,7 +219,7 @@
     margin-left: auto;
     margin-right: 8px;
   }
-  
+
   .loginSection p,
   .loginSection a {
     position: relative;
@@ -220,12 +232,12 @@
 
   .loginSection p::after,
   .loginSection a::after {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    bottom: -6px; 
+    bottom: -6px;
     z-index: 1;
   }
 
@@ -263,9 +275,9 @@
     border-top: none;
     border-right: none;
     border-bottom-left-radius: 20px;
-    clip-path: circle(0px at 80% -20%); 
+    clip-path: circle(0px at 80% -20%);
     transition: clip-path 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-    margin-top: -1px; 
+    margin-top: -1px;
   }
 
   .menuOpen {
@@ -281,7 +293,7 @@
     height: 1px;
     background: #0f0f11;
   }
-  
+
   .menu a {
     text-decoration: none;
     display: block;
@@ -303,7 +315,7 @@
   .menu .navOption:hover,
   .menu .navOptionActive {
     color: var(--text-primary);
-    padding-right: 35%; 
+    padding-right: 35%;
     background: rgba(255, 255, 255, 0.03);
     text-shadow: 0 0 8px rgba(127, 0, 255, 0.4);
     line-height: 1;

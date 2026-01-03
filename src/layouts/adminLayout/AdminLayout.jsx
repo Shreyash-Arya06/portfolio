@@ -1,5 +1,5 @@
-import React, {useState, useRef, useEffect} from "react";
-import {NavLink, Outlet, useLocation} from "react-router-dom";
+import React, { useState, useRef, useEffect } from "react";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { CircleChevronDown, CircleChevronUp } from "lucide-react";
 
 import style from "./AdminLayout.module.css";
@@ -7,12 +7,19 @@ import photo from "../../assets/profilepic.png";
 
 const AdminLayout = () => {
   const location = useLocation();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);    // on logging out, the menu conditions remains open, so after logging in, menu appears
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // on logging out, the menu conditions remains open, so after logging in, menu appears
   const [hoveredPos, setHoveredPos] = useState(null);
   const [activePos, setActivePos] = useState(null);
   const [isMobileView, setIsMobileView] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const menuOptions = [ "update-about", "edit-skills", "edit-timeline", "add-project", "edit-project", "manage-library"];
+  const menuOptions = [
+    "update-about",
+    "edit-skills",
+    "edit-timeline",
+    "add-project",
+    "edit-project",
+    "manage-library",
+  ];
 
   const sidebarRefs = {
     "update-about": useRef(null),
@@ -89,8 +96,7 @@ const AdminLayout = () => {
   const menuToggle = () => {
     if (isLoggedIn) {
       setIsMenuOpen(!isMenuOpen);
-    }
-    else {
+    } else {
       alert("Login required");
     }
   };
@@ -114,14 +120,21 @@ const AdminLayout = () => {
             </div>
           </div>
           {!isMobileView && (
-            <div className={isLoggedIn? style.optionsSection : style.optionsSectionDisabled} onMouseLeave={handleLeave}>
+            <div
+              className={
+                isLoggedIn ? style.optionsSection : style.optionsSectionDisabled
+              }
+              onMouseLeave={handleLeave}
+            >
               {menuOptions.map((key) => (
                 <NavLink
                   key={key}
                   to={`/admin-actions/${key}`}
                   ref={sidebarRefs[key]}
                   onMouseEnter={() => handleHover(key)}
-                  className={({ isActive }) => `${!isActive ? style.navOption : style.navOptionActive}`}
+                  className={({ isActive }) =>
+                    `${!isActive ? style.navOption : style.navOptionActive}`
+                  }
                 >
                   {key.charAt(0).toUpperCase() + key.slice(1).replace("-", " ")}
                 </NavLink>
@@ -135,7 +148,7 @@ const AdminLayout = () => {
               />
             </div>
           )}
-          
+
           <div className={style.loginSection}>
             {!isLoggedIn ? (
               <NavLink onClick={() => setIsLoggedIn(true)}>Login</NavLink>
@@ -149,20 +162,22 @@ const AdminLayout = () => {
             </div>
           )}
         </nav>
-        {(isMobileView && isLoggedIn) && (
+        {isMobileView && isLoggedIn && (
           <div className={`${style.menu} ${isMenuOpen ? style.menuOpen : ""}`}>
             {menuOptions.map((key) => (
-                <NavLink
-                  key={key}
-                  to={`/admin-actions/${key}`}
-                  ref={sidebarRefs[key]}
-                  onClick={menuToggle}
-                  onMouseEnter={() => handleHover(key)}
-                  className={({ isActive }) => `${!isActive ? style.navOption : style.navOptionActive}`}
-                >
-                  {key.charAt(0).toUpperCase() + key.slice(1).replace("-", " ")}
-                </NavLink>
-              ))}
+              <NavLink
+                key={key}
+                to={`/admin-actions/${key}`}
+                ref={sidebarRefs[key]}
+                onClick={menuToggle}
+                onMouseEnter={() => handleHover(key)}
+                className={({ isActive }) =>
+                  `${!isActive ? style.navOption : style.navOptionActive}`
+                }
+              >
+                {key.charAt(0).toUpperCase() + key.slice(1).replace("-", " ")}
+              </NavLink>
+            ))}
           </div>
         )}
         <div className={style.hero}>
@@ -171,6 +186,6 @@ const AdminLayout = () => {
       </div>
     </>
   );
-}
+};
 
 export default AdminLayout;
