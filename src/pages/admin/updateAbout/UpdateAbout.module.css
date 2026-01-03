@@ -9,7 +9,7 @@
 .formArea {
   width: 100%;
   max-width: 600px;
-  background: rgba(255, 255, 255, 0.03); 
+  background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 16px;
   padding: 30px;
@@ -59,7 +59,7 @@
 .formGroup input:focus,
 .formGroup textarea:focus {
   border-color: #a855f7;
-  background-color: rgba(168, 85, 247, 0.05); 
+  background-color: rgba(168, 85, 247, 0.05);
   box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.1);
 }
 
@@ -77,8 +77,14 @@
 }
 
 @keyframes slideDown {
-  from { opacity: 0; transform: translateY(-5px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .btnContainer {
@@ -138,7 +144,7 @@
   .page {
     padding: 20px 10px;
   }
-  
+
   .formArea {
     padding: 20px;
   }
@@ -147,7 +153,8 @@
     flex-direction: column-reverse;
   }
 
-  .submitBtn, .resetBtn {
+  .submitBtn,
+  .resetBtn {
     width: 100%;
     padding: 12px;
   }
