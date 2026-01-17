@@ -7,7 +7,6 @@ const UpdateAbout = () => {
   const {
     register,
     handleSubmit,
-    watch,
     reset,
     formState: { errors, isDirty },
   } = useForm();
