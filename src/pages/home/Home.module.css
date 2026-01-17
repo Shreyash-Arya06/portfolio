@@ -64,6 +64,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  padding-top: 5px;
   align-content: flex-start;
   overflow-y: auto;
 }
