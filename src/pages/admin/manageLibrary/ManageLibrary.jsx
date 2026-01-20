@@ -6,30 +6,41 @@ import AddBookModal from "../../../components/addBookModal/AddBookModal";
 
 const ManageLibrary = () => {
   const [showModal, setShowModal] = useState(false);
+  const [selectedBook, setSelectedBook] = useState(null);
+  const [overlayTitle, setOverlayTitle] = useState("Share a Find");
+
   const baseData = [
     {
       id: 1,
       cover: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=100",
       title: "The Great Gatsby",
       author: "F. Scott Fitzgerald",
+      rating: "4.5",
+      review: "A classic tragedy..."
     },
     {
       id: 2,
       cover: "https://images.unsplash.com/photo-1541963463532-d68292c34b19?auto=format&fit=crop&q=80&w=100",
       title: "To Kill a Mockingbird",
       author: "Harper Lee",
+      rating: "4.5",
+      review: "A classic tragedy..."
     },
     {
       id: 3,
       cover: "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&q=80&w=100",
       title: "1984",
       author: "George Orwell",
+      rating: "4",
+      review: "A classic tragedy..."
     },
     {
       id: 4,
       cover: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80&w=100",
       title: "Pride and Prejudice",
       author: "Jane Austen",
+      rating: "4.8",
+      review: "A classic tragedy..."
     },
   ];
 
@@ -38,12 +49,30 @@ const ManageLibrary = () => {
     id: index
   }));
 
+  const openAddOverlay = () => {
+    setOverlayTitle("Share a Find");
+    setSelectedBook(null);
+    setShowModal(true);
+  };
+
+  const openEditOverlay = (book) => {
+    setOverlayTitle("Change Your Mind?");
+    setSelectedBook(book);
+    setShowModal(true);
+  };
+
   return (
     <div className={style.page}>
-      {showModal && <AddBookModal onClose={() => setShowModal(false)} />}
+      {showModal && (
+        <AddBookModal
+          onClose={() => setShowModal(false)}
+          initialData={selectedBook}
+          overlayTitle={overlayTitle}
+        />
+      )}
       <div className={style.hero}>
         <div className={style.headerRow}>
-           <div className={style.addSection} onClick={() => setShowModal(true)}>
+           <div className={style.addSection} onClick={openAddOverlay}>
             <Plus size={20} />
             <p>Add New Read</p>
           </div>
@@ -79,7 +108,7 @@ const ManageLibrary = () => {
                     </td>
                     <td>
                       <div className={style.actionButtons}>
-                        <button className={style.editBtn} title="Edit">
+                        <button className={style.editBtn} title="Edit" onClick={() => openEditOverlay(book)}>
                           <Pencil size={18} />
                         </button>
                         <button className={style.hideBtn} title="Hide">

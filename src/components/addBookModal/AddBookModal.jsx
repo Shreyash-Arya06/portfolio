@@ -4,38 +4,36 @@ import { Camera, X } from "lucide-react";
 
 import style from "./AddBookModal.module.css";
 
-const AddBookModal = ({ onClose }) => {
+const AddBookModal = ({ onClose, initialData, overlayTitle }) => {
   const modalRef = useRef(null);
-  const [imagePreview, setImagePreivew] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
 
   const defaultValues = {
-    title: "",
-    author: "",
-    rating: "",
-    review: "",
-    cover: null
-  }
+    title: initialData?.title || "",
+    author: initialData?.author || "",
+    rating: initialData?.rating || "",
+    review: initialData?.review || "",
+    cover: initialData?.cover || null
+  };
 
   const {
     register,
     handleSubmit,
     watch,
     reset,
-    formState: {errors, isDirty}
+    formState: { errors, isDirty }
   } = useForm({
     defaultValues,
     mode: "onChange"
   });
 
-  const imageFile = watch("cover");
+  const coverValue = watch("cover");
 
   const handleKeyDown = (e) => {
     if (e.key !== "Tab") return;
-
     const focusableElements = modalRef.current.querySelectorAll(
       'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
     );
-    
     const firstElement = focusableElements[0];
     const lastElement = focusableElements[focusableElements.length - 1];
 
@@ -44,8 +42,7 @@ const AddBookModal = ({ onClose }) => {
         e.preventDefault();
         lastElement.focus();
       }
-    }
-    else {
+    } else {
       if (document.activeElement === lastElement) {
         e.preventDefault();
         firstElement.focus();
@@ -54,41 +51,43 @@ const AddBookModal = ({ onClose }) => {
   };
 
   useEffect(() => {
-    document.body.style.overflow = "hidden";
-    const firstInput = modalRef.current.querySelector('input');
-    if (firstInput) {
-      setTimeout(() => firstInput.focus(), 100);
-    }
-
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, []);
+    reset(defaultValues);
+  }, [initialData, reset]);
 
   useEffect(() => {
-    if (imageFile && imageFile.length > 0) {
-      const file = imageFile[0];
+    if (typeof coverValue === 'string') {
+      setImagePreview(coverValue);
+    } else if (coverValue && coverValue.length > 0) {
+      const file = coverValue[0];
       const newUrl = URL.createObjectURL(file);
-      setImagePreivew(newUrl);
+      setImagePreview(newUrl);
       return () => URL.revokeObjectURL(newUrl);
+    } else {
+      setImagePreview(null);
     }
-  }, [imageFile]);
+  }, [coverValue]);
+
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    const firstInput = modalRef.current.querySelector('input');
+    if (firstInput) setTimeout(() => firstInput.focus(), 100);
+    return () => { document.body.style.overflow = "unset"; };
+  }, []);
 
   const onSubmit = (data) => {
-    console.log(data);
+    console.log("Submitting:", data);
     resetForm();
   }
 
   const resetForm = () => {
     reset(defaultValues);
-    setImagePreivew(null);
   }
 
   return (
     <div className={style.modalOverlay} onKeyDown={handleKeyDown}>
       <div className={style.modalContainer} ref={modalRef}>
         <div className={style.modalHeader}>
-          <p>Add New Book</p>
+          <p>{overlayTitle}</p>
           <button className={style.closeBtn} onClick={onClose}>
             <X size={24} />
           </button>
@@ -112,8 +111,14 @@ const AddBookModal = ({ onClose }) => {
                     className={style.hiddenInput}
                     {...register("cover", {
                       validate: {
-                        lessThan2MB: (files) => !files || !files[0] || files[0].size < 2000000 || "Max 2MB",
-                        acceptedFormats: (files) => !files || !files[0] || ['image/jpeg', 'image/png', 'image/jpg'].includes(files[0].type) || "Only PNG or JPEG allowed",
+                        lessThan2MB: (v) => {
+                          if (typeof v === 'string') return true;
+                          return !v || !v[0] || v[0].size < 2000000 || "Max 2MB";
+                        },
+                        acceptedFormats: (v) => {
+                          if (typeof v === 'string') return true;
+                          return !v || !v[0] || ['image/jpeg', 'image/png', 'image/jpg'].includes(v[0].type) || "Only PNG/JPEG";
+                        }
                       },
                     })}
                   />
@@ -140,7 +145,7 @@ const AddBookModal = ({ onClose }) => {
                   />
                   {errors.title && (
                     <span className={style.errorMessage}>
-                      •{errors.title.message}
+                      • {errors.title.message}
                     </span>
                   )}
                 </div>
@@ -169,13 +174,9 @@ const AddBookModal = ({ onClose }) => {
                     placeholder="0 - 5"
                     {...register("rating", {
                       required: "Required",
-                      min: {
-                        value: 0,
-                        message: "Min 0"
-                      },
-                      max: {
-                        value: 5,
-                        message: "Max 5"
+                      validate: {
+                        min: v => parseFloat(v) >= 0 || "Min 0",
+                        max: v => parseFloat(v) <= 5 || "Max 5"
                       }
                     })}
                   />
@@ -190,7 +191,6 @@ const AddBookModal = ({ onClose }) => {
             <div className={style.inputGroup}>
               <label htmlFor="review">Review</label>
               <textarea 
-                type="text"
                 id="review"
                 placeholder="The book depicts ..."
                 {...register("review")}
@@ -203,7 +203,7 @@ const AddBookModal = ({ onClose }) => {
                 </button>
               )}
               <button type="submit" className={style.submitBtn} disabled={!isDirty}>
-                Save
+                {initialData ? "Save Changes" : "Add to Shelf"}
               </button>
             </div>
           </form>
