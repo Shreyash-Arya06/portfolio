@@ -72,7 +72,7 @@ const ManageLibrary = () => {
       )}
       <div className={style.hero}>
         <div className={style.headerRow}>
-           <div className={style.addSection} onClick={openAddOverlay}>
+          <div className={style.addSection} onClick={openAddOverlay}>
             <Plus size={20} />
             <p>Add New Read</p>
           </div>
