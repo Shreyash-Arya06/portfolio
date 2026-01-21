@@ -103,9 +103,8 @@
   align-items: center;
 }
 
-.moveDown,
-.moveUp {
-  color: #3b82f6;
+.reorderBtn {
+  color: #a855f7;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -115,14 +114,12 @@
   border-radius: 50%;
 }
 
-.moveDown:hover,
-.moveUp:hover {
-  background-color: rgba(59, 130, 246, 0.1);
+.reorderBtn:hover {
+  background-color: rgba(168, 85, 247, 0.1);
   transform: scale(1.1);
 }
 
-.moveDown:active,
-.moveUp:active {
+.reorderBtn:active {
   transform: scale(0.95);
 }
 

@@ -102,7 +102,7 @@ const EditSkills = () => {
                 </div>
                 <div className={style.btnContainer}>
                   <div
-                    className={`${style.moveDown} ${
+                    className={`${style.reorderBtn} ${
                       index === skills.length - 1 ? style.disabled : ""
                     }`}
                     onClick={() => moveDown(index)}
@@ -110,7 +110,7 @@ const EditSkills = () => {
                     <CircleArrowDown />
                   </div>
                   <div
-                    className={`${style.moveUp} ${
+                    className={`${style.reorderBtn} ${
                       index === 0 ? style.disabled : ""
                     }`}
                     onClick={() => moveUp(index)}
