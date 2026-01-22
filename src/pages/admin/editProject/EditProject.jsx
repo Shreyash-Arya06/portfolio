@@ -1,21 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Plus, Pencil, Trash2, EyeOff, Eye, CircleArrowDown, CircleArrowUp } from 'lucide-react';
 
 import style from "./EditProject.module.css";
+import EditCategoryModal from '../../../components/editCategoryModal/EditCategoryModal';
 
 const EditProject = () => {
   const [showModal, setShowModal] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [categories, addToCategories] = useState([
+    "Web Dev", "Academic", "temp"
+  ]);
 
   const baseData = [
     {
-      title: "Project 1", // Permit 90 characters only
+      category: "Web Dev",
+      title: "Project 1", 
       tags: ["React", "FastAPI", "Rest api"],
-      description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque, numquam quo recusandae sed vel veniam vitae voluptates. At, corporis delectus dicta incidunt magni mollitia vitae? Animi, assumenda consequatur cum debitis dolore ducimus eligendi esse hic labore laborum magni minima modi molestias natus numquam obcaecati odit optio possimus quo repellat repellendus rerum sed tempore. Alias aliquid consequuntur dolorem earum ex quisquam. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad commodi inventore, iure iusto maiores non quibusdam reprehenderit soluta sunt veritatis. Blanditiis facilis fugit incidunt ipsam nesciunt nihil recusandae reiciendis sit!"
+      description: "Lorem ipsum..."
     },
     {
+      category: "Academic",
       title: "Project 2",
-      tags: ["React", "FastAPI", "Rest api", "SQL", "Rest api", "SQL", "Rest api", "SQL"],
-      description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque, numquam quo recusandae sed vel veniam vitae voluptates. At, corporis delectus dicta incidunt magni mollitia vitae? Animi, assumenda consequatur cum debitis dolore ducimus eligendi esse hic labore laborum magni minima modi molestias natus numquam obcaecati odit optio possimus quo repellat repellendus rerum sed tempore. Alias aliquid consequuntur dolorem earum ex quisquam. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad commodi inventore, iure iusto maiores non quibusdam reprehenderit soluta sunt veritatis. Blanditiis facilis fugit incidunt ipsam nesciunt nihil recusandae reiciendis sit!"
+      tags: ["React..."],
+      description: "Lorem ipsum..."
     },
   ];
 
@@ -24,31 +31,67 @@ const EditProject = () => {
     id: index
   }));
 
+  const handleCategoryChange = (e) => {
+    setSelectedCategory(e.target.value);
+  };
+
+  const filteredData = useMemo(() => {
+    console.log("Filtering huge list...");
+    return dummyData.filter(p => !selectedCategory || p.category === selectedCategory);
+  }, [selectedCategory, dummyData]);
+
   return (
     <div className={style.page}>
-      {/* {showModal && (<div></div>)} */}
+      {showModal && (
+        <EditCategoryModal
+        onClose={() => setShowModal(false)}
+        categories={categories}
+      />
+      )}
       <div className={style.hero}>
         <div className={style.headerRow}> 
-          <div className={style.addSection}>
+          <div className={style.addSection} onClick={() => setShowModal(true)}>
             <Plus size={20} />
             <p>Edit Categories</p>
           </div>
         </div>
         <div className={style.addedProjects}>
+          <div className={style.tableHeader}>
+            <div className={style.title}>
+              <p>Existing Projects</p>
+            </div>
+            <div className={style.selectSection}>
+              <p>Category: </p>
+              <select 
+                value={selectedCategory} 
+                onChange={handleCategoryChange}
+                className={style.categorySelect}
+              >
+                <option value="">---Select Category---</option>
+                {categories.map((categoryName, index) => (
+                  <option value={categoryName} key={index}>
+                    {categoryName}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
           <div className={style.tableArea}>
-            <table>
+            <table className={style.table}>
               <thead>
                 <tr>
                   <th className={style.colSr}>Sr. No.</th>
                   <th className={style.colTitle}>Title</th>
                   <th className={style.colAction}>Actions</th>
-                  <th className={style.colReorder}>Reorder</th>
+                  {selectedCategory && (<th className={style.colReorder}>Reorder</th>)}
                 </tr>
               </thead>
               <tbody>
-                {dummyData.map((project, index) => (
+                {filteredData.map((project, index) => (
                   <tr key={project.id}>
-                    <td className={style.srNo}>{index + 1 < 10 ? `0${index + 1}` : index + 1}</td>
+                    <td className={style.srNo}>
+                        {index + 1 < 10 ? `0${index + 1}` : index + 1}
+                    </td>
                     <td>
                       <div className={style.projectTitle}>
                         <p>{project.title}</p>
@@ -67,18 +110,27 @@ const EditProject = () => {
                         </button>
                       </div>
                     </td>
-                    <td>
-                      <div className={style.reorderButtons}>
-                        <button className={style.reorderBtn} title="Move Up">
-                          <CircleArrowUp  size={18} />
-                        </button>
-                        <button className={style.reorderBtn}>
-                          <CircleArrowDown size={18} />
-                        </button>
-                      </div>
-                    </td>
+                    {selectedCategory && (
+                      <td>
+                        <div className={style.reorderButtons}>
+                          <button className={style.reorderBtn} title="Move Up">
+                            <CircleArrowUp  size={22} />
+                          </button>
+                          <button className={style.reorderBtn}>
+                            <CircleArrowDown size={22} />
+                          </button>
+                        </div>
+                      </td>
+                    )}
                   </tr>
                 ))}
+                {filteredData.length === 0 && (
+                  <tr>
+                    <td colSpan="4" style={{textAlign: 'center', padding: '20px'}}>
+                      No projects found in this category.
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
