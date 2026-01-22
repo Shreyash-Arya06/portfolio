@@ -1,0 +1,299 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.2s ease;
+}
+
+.modalContainer {
+  background-color: var(--card-bg, #1a1a1a);
+  border: 1px solid var(--card-border, #333);
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 24px;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 20px;
+}
+
+.modalHeader p {
+  margin: 0;
+  color: var(--text-primary, #fff);
+  font-size: 1.4rem;
+}
+
+.closeBtn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary, #a1a1aa);
+  cursor: pointer;
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+}
+
+.closeBtn:hover {
+  color: #ef4444;
+}
+
+.addCategory {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 24px;
+  width: 100%;
+  margin-top: 15px;
+}
+
+.labelText {
+  color: var(--text-secondary, #a1a1aa);
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin: 0;
+  margin-left: 4px;
+}
+
+.inputGroup {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+}
+
+.inputField {
+  flex: 1;
+  min-width: 100px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 10px 16px;
+  color: white;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.inputField:focus {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: #a855f7;
+  box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.15);
+}
+
+.inputField::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.saveBtn {
+  padding: 0 24px;
+  height: 44px;
+  background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+  white-space: nowrap;
+}
+
+.saveBtn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+  box-shadow: 0 6px 16px rgba(124, 58, 237, 0.5);
+}
+
+.saveBtn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.saveBtn:disabled {
+  background: #3f3f46;
+  color: #71717a;
+  box-shadow: none;
+  cursor: not-allowed;
+  opacity: 1;
+  transform: none;
+}
+
+.tableArea  {
+  width: 100%;
+  max-height: 500px;
+  overflow-y: auto;
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--text-secondary, #a1a1aa);
+  min-width: 400px;
+}
+
+.table thead th {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary, #a1a1aa);
+  font-weight: 500;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: sticky;
+  top: 0;
+  background-color: var(--card-bg, #1a1a1a);
+  z-index: 10;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tableArea::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.tableArea::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.tableArea::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.tableArea::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.colSr {
+  width: 80px;
+}
+
+.colTitle {
+  width: auto;
+}
+
+.colAction {
+  width: 120px;
+}
+
+.colReorder {
+  width: 80px;
+  text-align: right;
+}
+
+.table tbody tr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background-color 0.2s ease;
+}
+
+.table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.table tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.table td {
+  padding: 12px;
+  vertical-align: middle;
+}
+
+.srNo {
+  font-family: monospace;
+  color: #52525b;
+  font-size: 1.1rem;
+}
+
+.projectTitle {
+  margin: 0;
+  color: var(--text-primary, #fff);
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.actionButtons,
+.reorderButtons {
+  display: flex;
+  justify-content: flex-start;
+  gap: 2px;
+}
+
+.reorderButtons {
+  justify-content: flex-end;
+}
+
+.editBtn,
+.hideBtn,
+.deleteBtn,
+.reorderBtn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.editBtn {
+  color: #3b82f6;
+}
+
+.editBtn:hover {
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+.hideBtn {
+  color: #eab308;
+}
+
+.hideBtn:hover {
+  background-color: rgba(234, 179, 8, 0.1);
+}
+
+.deleteBtn {
+  color: #ef4444;
+}
+
+.deleteBtn:hover {
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+.reorderBtn {
+  color: #a855f7;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  padding: 4px;
+  border-radius: 50%;
+}
+
+.reorderBtn:hover {
+  background-color: rgba(168, 85, 247, 0.1);
+  transform: scale(1.1);
+}
