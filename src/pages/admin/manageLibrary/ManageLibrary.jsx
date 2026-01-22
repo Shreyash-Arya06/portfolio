@@ -82,7 +82,7 @@ const ManageLibrary = () => {
             <p>Previous Reads</p>
           </div>
           <div className={style.tableArea}>
-            <table>
+            <table className={style.table}>
               <thead>
                 <tr>
                   <th className={style.colSr}>Sr. No.</th>

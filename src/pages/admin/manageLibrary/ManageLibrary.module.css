@@ -72,14 +72,14 @@
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-table {
+.table {
   width: 100%;
   border-collapse: collapse;
   color: var(--text-secondary, #a1a1aa);
   min-width: 600px;
 }
 
-thead th {
+.table thead th {
   text-align: left;
   padding: 12px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -118,20 +118,20 @@ thead th {
 .colDesc { width: auto; }
 .colAction { width: 120px; text-align: right; }
 
-tbody tr {
+.table tbody tr {
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   transition: background-color 0.2s ease;
 }
 
-tbody tr:last-child {
+.table tbody tr:last-child {
   border-bottom: none;
 }
 
-tbody tr:hover {
+.table tbody tr:hover {
   background-color: rgba(255, 255, 255, 0.02);
 }
 
-td {
+.table td {
   padding: 12px;
   vertical-align: middle;
 }
