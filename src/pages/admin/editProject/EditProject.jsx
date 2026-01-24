@@ -2,10 +2,8 @@ import React, { useState, useMemo } from 'react';
 import { Plus, Pencil, Trash2, EyeOff, Eye, CircleArrowDown, CircleArrowUp } from 'lucide-react';
 
 import style from "./EditProject.module.css";
-import EditCategoryModal from '../../../components/editCategoryModal/EditCategoryModal';
 
 const EditProject = () => {
-  const [showModal, setShowModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [categories, addToCategories] = useState([
     "Web Dev", "Academic", "temp"
@@ -42,19 +40,7 @@ const EditProject = () => {
 
   return (
     <div className={style.page}>
-      {showModal && (
-        <EditCategoryModal
-        onClose={() => setShowModal(false)}
-        categories={categories}
-      />
-      )}
       <div className={style.hero}>
-        <div className={style.headerRow}> 
-          <div className={style.addSection} onClick={() => setShowModal(true)}>
-            <Plus size={20} />
-            <p>Edit Categories</p>
-          </div>
-        </div>
         <div className={style.addedProjects}>
           <div className={style.tableHeader}>
             <div className={style.title}>

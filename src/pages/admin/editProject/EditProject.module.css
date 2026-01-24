@@ -1,6 +1,7 @@
 .page {
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   width: 100%;
   padding-top: 20px;
 }
@@ -12,35 +13,6 @@
   max-width: 800px;
   margin: 0 auto;
   width: 100%;
-}
-
-.headerRow {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.addSection {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
-  background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
-  color: white;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
-}
-
-.addSection:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(124, 58, 237, 0.4);
-}
-
-.addSection p {
-  margin: 0;
-  font-weight: 600;
-  font-size: 1rem;
 }
 
 .addedProjects {
