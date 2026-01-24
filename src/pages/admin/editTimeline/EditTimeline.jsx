@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { ChevronDown, ChevronUp, X } from "lucide-react";
+import { ChevronDown, ChevronUp, Trash2, History, PenLine } from "lucide-react";
 
 import style from "./EditTimeline.module.css";
 
 const EditTimeline = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(true);
   const [isUpdate, setIsUpdate] = useState(false);
 
   const timelineData = [
@@ -30,10 +30,6 @@ const EditTimeline = () => {
     });
   }, [reset]);
 
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
-
   const onSubmit = (data) => {
     console.log(data);
   };
@@ -45,15 +41,20 @@ const EditTimeline = () => {
       title: timelineItem.title,
       desc: timelineItem.subtitle 
     });
+    window.scrollTo({ top: 300, behavior: 'smooth' });
   }
 
   const promptDelete = (e, index) => {
     e.stopPropagation();
-    console.log("Attempted to delete index", index);
+    if(window.confirm("Are you sure you want to delete this event?")) {
+        console.log("Deleted index", index);
+    }
   }
 
   const resetForm = () => {
+
     reset();
+
   }
 
   const clearForm = () => {
@@ -68,64 +69,78 @@ const EditTimeline = () => {
   return (
     <>
       <div className={style.page}>
-        <div className={style.previousData}>
-          <div className={style.previousDataTitle} onClick={toggleMenu}>
-            <p>Previous Data</p>
-            {menuOpen && <ChevronDown />}
-            {!menuOpen && <ChevronUp />}
+        <div className={style.section}>
+          <div className={style.previousDataTitle} onClick={() => setMenuOpen(!menuOpen)}>
+            <div className={style.headerTitle}>
+              <History size={20} color="#a855f7" />
+              <p>Timeline Events</p>
+            </div>
+            <div className={style.iconBtn}>
+              {menuOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+            </div>
           </div>
-          {menuOpen && 
-          <div className={style.eventsList}>
-            {timelineData.map((data, index) => (
-              <div key={index} className={style.event}
-              onClick={() => loadEvent(data)}>
-                <div className={style.titleRow}>
-                  <div className={style.title}>
-                    <p>{data.title}</p>
-                    <div className={style.titleLine}></div>
+          <div className={`${style.eventsWrapper} ${menuOpen ? style.open : ''}`}>
+            <div className={style.eventsInner}>
+              <div className={style.eventsList}>
+                {timelineData.map((data, index) => (
+                  <div 
+                    key={index} 
+                    className={style.eventCard} 
+                    onClick={() => loadEvent(data)}
+                    title="Click to Edit"
+                  >
+                    <div className={style.cardHeader}>
+                      <span className={style.yearBadge}>{data.year}</span>
+                      <div className={style.deleteIcon} onClick={(e) => promptDelete(e, index)}>
+                        <Trash2 size={16} />
+                      </div>
+                    </div>
+                    <div className={style.cardContent}>
+                      <h3>{data.title}</h3>
+                      <p>{data.subtitle}</p>
+                    </div>
                   </div>
-                  <div className={style.cut}>
-                    <X onClick={(e) => promptDelete(e, index)}/>
-                  </div>
-                </div>
-                <div className={style.year}>
-                  <p>{data.year}</p>
-                </div>
-                <div className={style.desc}>
-                  <p>{data.subtitle}</p>
-                </div>
+                ))}
               </div>
-            ))}
+            </div>
           </div>
-          }
         </div>
-        <div className={style.addData}>
-          <div className={style.addDataTitle}>
-            <p>Add or Modify</p>
+        <div className={style.section}>
+          <div className={style.headerTitle}>
+            <PenLine size={20} color="#a855f7" />
+            <p>{isUpdate ? "Update Event" : "Add New Event"}</p>
           </div>
-          <div className={style.formArea}>
+          <div className={style.formContainer}>
             <form className={style.forms} onSubmit={handleSubmit(onSubmit)}>
-              <div className={style.formGroup}>
-                <label>Year</label>
-                <input
-                  {...register("year", {
-                    required: "Year is required",
-                  })}
-                />
-                {errors.year && (
-                  <span className={style.error}>{errors.year.message}</span>
-                )}
-              </div>
-              <div className={style.formGroup}>
-                <label>Title</label>
-                <input
-                  {...register("title", {
-                    required: "Title is required",
-                  })}
-                />
-                {errors.title && (
-                  <span className={style.error}>{errors.title.message}</span>
-                )}
+              <div className={style.formGrid}>
+                <div className={style.formGroup}>
+                  <label>Year</label>
+                  <input
+                    {...register("year", {
+                      required: "Year is required",
+                    })}
+                    className={style.inputField}
+                  />
+                  {errors.year && (
+                    <span className={style.error}>
+                      {errors.year.message}
+                    </span>
+                  )}
+                </div>
+                <div className={style.formGroup}>
+                  <label>Title</label>
+                  <input
+                    {...register("title", {
+                      required: "Title is required",
+                    })}
+                    className={style.inputField}
+                  />
+                  {errors.title && (
+                    <span className={style.error}>
+                      {errors.title.message}
+                    </span>
+                  )}
+                </div>
               </div>
               <div className={style.formGroup}>
                 <label>Description</label>
@@ -133,9 +148,12 @@ const EditTimeline = () => {
                   {...register("desc", {
                     required: "Required",
                   })}
+                  className={`${style.inputField} ${style.textArea}`}
                 />
                 {errors.desc && (
-                  <span className={style.error}>{errors.desc.message}</span>
+                  <span className={style.error}>
+                    {errors.desc.message}
+                  </span>
                 )}
               </div>
               <div className={style.btnContainer}>
