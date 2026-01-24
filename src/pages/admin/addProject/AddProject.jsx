@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { ChevronDown, ChevronUp, Camera } from "lucide-react";
+import { ChevronDown, ChevronUp, Camera, Plus } from "lucide-react";
 
 import style from "./AddProject.module.css";
+import EditCategoryModal from '../../../components/editCategoryModal/EditCategoryModal';
 
 const AddProject = () => {
   const [category, setCategory] = useState("");
   const [showSec1, setShowSec1] = useState(true);
   const [showSec2, setShowSec2] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
+  const [showModal, setShowModal] = useState(false);
   
   const [categories, addToCategories] = useState([
     "Web Dev", "Academic", "temp"
@@ -32,7 +34,7 @@ const AddProject = () => {
     mode: "onChange"
   });
   
-  const imageFile = watch("profilePic");
+  const imageFile = watch("projectSS");
 
   useEffect(() => {
     if (imageFile && imageFile.length > 0) {
@@ -53,9 +55,39 @@ const AddProject = () => {
     setImagePreview(null);
   };
 
+  const getSelectValue = (e) => {
+    const selectedVal = e.target.value;
+    setCategory(selectedVal);
+    if (selectedVal === "") {
+      setShowSec2(false);
+    } else {
+      setShowSec1(false);
+      setShowSec2(true);
+    }
+  }
+
+  const toggleSection2 = () => {
+    if (category === "") {
+      return;
+    }
+    setShowSec2(!showSec2);
+  }
+
   return (
     <div className={style.page}>
+      {showModal && (
+        <EditCategoryModal
+          onClose={() => setShowModal(false)}
+          categories={categories}
+        />
+      )}
       <div className={style.hero}>
+        <div className={style.editCategory}>
+          <div className={style.addSection} onClick={() => setShowModal(true)}>
+            <Plus size={20} />
+            <p>Edit Categories</p>
+          </div>
+        </div>
         <div className={style.firstSection}>
           <div className={style.header} onClick={() => setShowSec1(!showSec1)}>
             <p>1. Select Category</p>
@@ -66,7 +98,7 @@ const AddProject = () => {
               <p>Add to - </p>
               <select 
                 value={category}
-                onChange={(e) => setCategory(e.target.value)}
+                onChange={(e) => getSelectValue(e)}
                 className={style.categorySelect}
               >
                 <option value="">--- Select Category ---</option>
@@ -80,7 +112,7 @@ const AddProject = () => {
           )}
         </div>
         <div className={style.secondSection}>
-          <div className={style.header} onClick={() => setShowSec2(!showSec2)}>
+          <div className={style.header} onClick={toggleSection2}>
             <p>2. Add Project to {category === "" ? "_____" : category}</p>
             {showSec2 ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
           </div>
