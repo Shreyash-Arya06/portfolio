@@ -20,7 +20,6 @@ import AddProject from "./pages/admin/addProject/AddProject.jsx";
 import EditProject from "./pages/admin/editProject/EditProject.jsx";
 import ManageLibrary from "./pages/admin/manageLibrary/ManageLibrary.jsx";
 import AdminLogin from "./pages/admin/adminLogin/AdminLogin.jsx";
-import Temp from "./pages/temp/Temp.jsx";
 
 import "./index.css";
 
