@@ -20,6 +20,7 @@ import AddProject from "./pages/admin/addProject/AddProject.jsx";
 import EditProject from "./pages/admin/editProject/EditProject.jsx";
 import ManageLibrary from "./pages/admin/manageLibrary/ManageLibrary.jsx";
 import AdminLogin from "./pages/admin/adminLogin/AdminLogin.jsx";
+import UpdateResume from "./pages/admin/updateResume/UpdateResume.jsx";
 
 import "./index.css";
 
@@ -51,6 +52,7 @@ const router = createBrowserRouter([
       {path: "edit-project", element: <EditProject/>},
       {path: "manage-library", element: <ManageLibrary/>},
       {path: "admin-login", element: <AdminLogin/>},
+      {path: "update-resume", element: <UpdateResume/>},
     ]
   }
 ]);

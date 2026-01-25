@@ -19,6 +19,7 @@ const AdminLayout = () => {
     "add-project",
     "edit-project",
     "manage-library",
+    "update-resume",
   ];
 
   const sidebarRefs = {
@@ -28,6 +29,7 @@ const AdminLayout = () => {
     "add-project": useRef(null),
     "edit-project": useRef(null),
     "manage-library": useRef(null),
+    "update-resume": useRef(null),
   };
 
   useEffect(() => {
