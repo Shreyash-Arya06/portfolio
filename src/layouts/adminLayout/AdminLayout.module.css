@@ -22,7 +22,7 @@
   background-color: rgba(15, 15, 17, 0.2);
   border-right: 1px solid rgba(255, 255, 255, 0.05);
   z-index: 1;
-  min-width: 200px;
+  min-width: 230px;
 }
 
 .navbar p {
