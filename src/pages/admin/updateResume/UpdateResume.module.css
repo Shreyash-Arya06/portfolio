@@ -1,0 +1,275 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  padding: 24px;
+}
+
+.page p {
+  margin: 0;
+}
+
+.container {
+  display: flex;
+  gap: 24px;
+  height: 100%;
+}
+
+.controlsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  flex: 1;
+  min-width: 300px;
+}
+
+.title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 24px;
+  gap: 24px;
+}
+
+.header {
+  color: var(--text-secondary);
+}
+
+.tabs {
+  display: flex;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 4px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+
+.tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px;
+  background: transparent;
+  border: none;
+  color: #a1a1aa;
+  cursor: pointer;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.activeTab {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.formContent {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.inputGroup label {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-left: 4px;
+}
+
+.fileInputHidden {
+  display: none;
+}
+
+.fileLabel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  height: 150px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 2px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #71717a;
+  text-align: center;
+  padding: 20px;
+}
+
+.fileLabel:hover {
+  border-color: #a855f7;
+  color: #a855f7;
+  background: rgba(168, 85, 247, 0.05);
+}
+
+.linkInputWrapper {
+  display: flex;
+  gap: 8px;
+}
+
+.textInput {
+  flex: 1;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 12px 16px;
+  color: white;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.textInput:focus {
+  border-color: #a855f7;
+  box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.1);
+}
+
+.previewBtn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  width: 44px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.previewBtn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.hint {
+  font-size: 0.8rem;
+  color: #52525b;
+  margin: 0;
+}
+
+.actionButtons {
+  margin-top: 10px;
+}
+
+.saveBtn {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+}
+
+.saveBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(124, 58, 237, 0.5);
+}
+
+.previewSection {
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  flex: 2;
+  gap: 16px;
+}
+
+.previewHeader {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+}
+
+.pdfContainer {
+  flex: 1;
+  background: #1a1a1a;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.pdfFrame {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.noPdf {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #52525b;
+  margin: 0 4px;
+}
+
+@media (max-width: 1000px) {
+  .page {
+    height: auto;
+    padding: 0;
+  }
+
+  .container {
+    flex-direction: column;
+    max-width: 500px;
+    width: 100%;
+    margin: auto;
+  }
+
+  .controlsSection {
+    flex: unset;
+    min-width: unset;
+  }
+  
+  .previewSection {
+    height: 500px;
+    flex: none;
+  }
+}
+
+@media (max-width: 375px) {
+  .card {
+    padding: 24px 12px;
+  }
+
+  .tabs {
+    flex-direction: column;
+  }
+
+  .textInput {
+    min-width: 100px;
+  }
+
+  .previewSection {
+    padding: 24px 12px;
+  }
+}

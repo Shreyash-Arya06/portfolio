@@ -3,22 +3,15 @@ import { FileUp, Link as LinkIcon, Save, Eye, FileText } from "lucide-react";
 import style from "./UpdateResume.module.css";
 
 const UpdateResume = () => {
-  // State for toggling input methods
-  const [activeTab, setActiveTab] = useState("file"); // 'file' or 'link'
-  
-  // State for form data
-  const [driveLink, setDriveLink] = useState("");
+  const [activeTab, setActiveTab] = useState("file");
+  const [driveLink, setDriveLink] = useState(""); 
   const [selectedFile, setSelectedFile] = useState(null);
-
-  // State for the PDF currently being shown in the viewer
-  // Initialize with a dummy PDF or your existing backend URL
-  const [pdfUrl, setPdfUrl] = useState("https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf");
+  const [pdfUrl, setPdfUrl] = useState(null);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file && file.type === "application/pdf") {
       setSelectedFile(file);
-      // Create a temporary URL to preview the uploaded file immediately
       const tempUrl = URL.createObjectURL(file);
       setPdfUrl(tempUrl);
     } else {
@@ -32,9 +25,6 @@ const UpdateResume = () => {
 
   const handleLinkPreview = () => {
     if (!driveLink) return;
-    
-    // Note: For Google Drive, ensuring the link is an 'embed' link is crucial for iframes.
-    // Usually replacing '/view' with '/preview' works for Drive UI links.
     let formattedLink = driveLink;
     if (driveLink.includes("drive.google.com") && driveLink.includes("/view")) {
         formattedLink = driveLink.replace("/view", "/preview");
@@ -46,28 +36,25 @@ const UpdateResume = () => {
     e.preventDefault();
     if (activeTab === "file" && selectedFile) {
       console.log("Submitting File:", selectedFile);
-      // Add logic to send 'selectedFile' to your backend using FormData
     } else if (activeTab === "link" && driveLink) {
       console.log("Submitting Link:", driveLink);
-      // Add logic to send 'driveLink' string to your backend
     }
   };
 
   return (
     <div className={style.page}>
       <div className={style.container}>
-        
-        {/* LEFT COLUMN: Controls */}
         <div className={style.controlsSection}>
-          <div className={style.header}>
-            <h2>Update Resume</h2>
-            <p>Choose a method to update your CV</p>
+          <div className={style.title}>
+            <p>Update Resume</p>
           </div>
-
           <div className={style.card}>
-            {/* Tabs */}
+            <div className={style.header}>
+              <p>Choose a method to update your CV</p>
+            </div>
             <div className={style.tabs}>
               <button 
+                type="button"
                 className={`${style.tab} ${activeTab === "file" ? style.activeTab : ""}`}
                 onClick={() => setActiveTab("file")}
               >
@@ -75,6 +62,7 @@ const UpdateResume = () => {
                 Upload File
               </button>
               <button 
+                type="button"
                 className={`${style.tab} ${activeTab === "link" ? style.activeTab : ""}`}
                 onClick={() => setActiveTab("link")}
               >
@@ -82,13 +70,13 @@ const UpdateResume = () => {
                 Drive Link
               </button>
             </div>
-
             <form onSubmit={handleSubmit} className={style.formContent}>
               {activeTab === "file" ? (
                 <div className={style.inputGroup}>
                   <label>Select PDF from System</label>
                   <div className={style.fileDropArea}>
                     <input 
+                      key="file-input-control"
                       type="file" 
                       accept="application/pdf" 
                       onChange={handleFileChange}
@@ -106,6 +94,7 @@ const UpdateResume = () => {
                   <label>Google Drive / External Link</label>
                   <div className={style.linkInputWrapper}>
                     <input 
+                      key="link-input-control"
                       type="text" 
                       placeholder="https://drive.google.com/..." 
                       value={driveLink}
@@ -119,7 +108,6 @@ const UpdateResume = () => {
                   <p className={style.hint}>Ensure the Drive link is set to "Anyone with the link".</p>
                 </div>
               )}
-
               <div className={style.actionButtons}>
                 <button type="submit" className={style.saveBtn}>
                   <Save size={18} />
@@ -129,11 +117,9 @@ const UpdateResume = () => {
             </form>
           </div>
         </div>
-
-        {/* RIGHT COLUMN: PDF Viewer */}
         <div className={style.previewSection}>
           <div className={style.previewHeader}>
-            <h3>Live Preview</h3>
+            <p>Live Preview</p>
           </div>
           <div className={style.pdfContainer}>
             {pdfUrl ? (
@@ -149,7 +135,6 @@ const UpdateResume = () => {
             )}
           </div>
         </div>
-
       </div>
     </div>
   );
