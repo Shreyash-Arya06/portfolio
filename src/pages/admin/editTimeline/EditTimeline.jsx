@@ -111,7 +111,7 @@ const EditTimeline = () => {
             <p>{isUpdate ? "Update Event" : "Add New Event"}</p>
           </div>
           <div className={style.formContainer}>
-            <form className={style.forms} onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <div className={style.formGrid}>
                 <div className={style.formGroup}>
                   <label>Year</label>

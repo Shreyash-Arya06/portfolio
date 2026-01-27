@@ -167,12 +167,6 @@
   margin-top: 8px;
 }
 
-/* .forms {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-} */
-
 .formGrid {
   display: grid;
   grid-template-columns: 1fr 2fr;
