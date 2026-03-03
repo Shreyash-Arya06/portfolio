@@ -1,7 +1,7 @@
 from sqlmodel import SQLModel, Field
 
 class Timeline(SQLModel, table=True):
-    id: int = Field(primary_key=True)
+    id: int | None = Field(default=None, primary_key=True)
     month: int = Field()
     year: int = Field()
     title: str = Field(index=True, unique=True)
