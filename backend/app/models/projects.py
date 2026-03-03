@@ -2,7 +2,6 @@ from typing import List, Optional
 from sqlmodel import SQLModel, Field, Relationship
 from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy import Column, String
-from categories import Categories
 
 class Project(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)

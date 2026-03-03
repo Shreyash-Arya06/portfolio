@@ -30,10 +30,11 @@ async def get_session() -> AsyncSession:
 # 3. Table Creation Logic (Standard Pattern)
 async def init_db():
     async with engine.begin() as conn:
-        # 👇 IMPORTANT: Import all your models here!
-        # This registers them with SQLModel.metadata before we create tables.
         from app.models.admin import Admin
-        # from app.models.projects import Project  <-- Add future models here
+        from app.models.skills import Skills
+        from app.models.timeline import Timeline
+        from app.models.projects import Project
+        from app.models.categories import Categories
+        from app.models.library import Library
 
-        # This creates tables ONLY if they don't exist
         await conn.run_sync(SQLModel.metadata.create_all)
