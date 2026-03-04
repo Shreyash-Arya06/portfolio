@@ -5,5 +5,5 @@ class Timeline(SQLModel, table=True):
     month: int = Field()
     year: int = Field()
     title: str = Field(index=True, unique=True)
-    sub_title: str | None = Field()
+    sub_title: str | None = Field(default=None)
     is_active: bool = Field(default=True)
