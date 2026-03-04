@@ -7,5 +7,5 @@ class Library(SQLModel, table=True):
     rating: float | None = Field(default=None)
     review: str | None = Field(default=None)
     image_url: str | None = Field(default=None)
-    hidden: bool = Field(default=False)
+    is_visible: bool = Field(default=True)
     is_active: bool = Field(default=True)
