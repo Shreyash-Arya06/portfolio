@@ -6,19 +6,20 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 from pydantic import BaseModel
 from google.oauth2 import id_token
 from google.auth.transport import requests
+
 from app.database.db import get_session
 from app.auth.auth import verify_password, create_access_token, get_current_admin
 from app.models.admin import Admin
 from app.schemas.admin import Token
 
-router = APIRouter(tags=["admin_auth"])
+router = APIRouter(prefix="/auth", tags=["admin_auth"])
 
 class GoogleToken(BaseModel):
     token: str
 
 GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
 
-@router.post("/auth/login", response_model=Token)
+@router.post("/login", response_model=Token, status_code=status.HTTP_200_OK)
 async def login(
     form_data: OAuth2PasswordRequestForm = Depends(),
     session: AsyncSession = Depends(get_session)
@@ -36,7 +37,7 @@ async def login(
     access_token = create_access_token(data={"sub": admin.email})
     return {"access_token": access_token, "token_type": "bearer"}
 
-@router.post("/auth/google", response_model=Token)
+@router.post("/google", response_model=Token, status_code=status.HTTP_200_OK)
 async def google_login(
     token_data: GoogleToken,
     session: AsyncSession = Depends(get_session)
@@ -66,6 +67,6 @@ async def google_login(
             detail="Invalid Google token"
         )
 
-@router.get("/admin/dashboard")
+@router.get("/dashboard", status_code=status.HTTP_200_OK)
 async def admin_dashboard(current_admin: Admin = Depends(get_current_admin)):
     return {"message": f"Welcome back, {current_admin.email}. Here is your secret data."}
