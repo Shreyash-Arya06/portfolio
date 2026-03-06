@@ -2,6 +2,7 @@ from fastapi import FastAPI
 
 from app.database.db import init_db
 from app.routes import admin
+from app.routes import manage_admin
 
 app = FastAPI()
 
@@ -11,3 +12,5 @@ async def on_startup():
     await init_db()
 
 app.include_router(admin.router)
+
+app.include_router(manage_admin.router)

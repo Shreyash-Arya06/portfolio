@@ -12,7 +12,7 @@ router = APIRouter(prefix="/admin", tags=["admin_management"])
 async def get_my_profile(current_admin = Depends(get_current_admin)):
     return current_admin
 
-@router.patch("/me", response_model=GetAdmin, status_code=status.HTTP_204_NO_CONTENT)
+@router.patch("/me", status_code=status.HTTP_204_NO_CONTENT)
 async def update_my_profile(
         update_data: AdminUpdate,
         current_admin: Admin = Depends(get_current_admin),
@@ -40,8 +40,8 @@ async def update_my_resume(
     await session.commit()
 
 @router.patch("/me/credentials", status_code=status.HTTP_204_NO_CONTENT)
-async def update_mt_credentials(
-        credentials = AdminChangeCredentials,
+async def update_my_credentials(
+        credentials: AdminChangeCredentials,
         current_admin: Admin = Depends(get_current_admin),
         session: AsyncSession = Depends(get_session)
 ):
