@@ -2,7 +2,6 @@ from pydantic import BaseModel, ConfigDict
 
 class CreateSkill(BaseModel):
     title: str
-    order: int
 
 class GetSkill(BaseModel):
     id: int
@@ -12,7 +11,8 @@ class GetSkill(BaseModel):
     
     model_config = ConfigDict(from_attributes=True)
 
-class UpdateSkill(BaseModel):
-    title: str | None = None
-    is_active: bool | None = None
-    order: int | None = None
+class UpdateTitle(BaseModel):
+    title: str
+
+class UpdateOrder(BaseModel):
+    order: int
