@@ -11,7 +11,6 @@ class Project(SQLModel, table=True):
     image_url: str | None = Field(default=None)
     order: int = Field(unique=True)
     is_visible: bool = Field(default=True)
-    is_active: bool = Field(default=True)
     category_id: int = Field(foreign_key="categories.id")
 
     category: Optional["Categories"] = Relationship(back_populates="projects")

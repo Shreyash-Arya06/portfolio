@@ -4,6 +4,7 @@ from app.database.db import init_db
 from app.routes import admin
 from app.routes import manage_admin
 from app.routes import skills
+from app.routes import categories
 
 app = FastAPI()
 
@@ -17,3 +18,5 @@ app.include_router(admin.router)
 app.include_router(manage_admin.router)
 
 app.include_router(skills.router)
+
+app.include_router(categories.router)

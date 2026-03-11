@@ -8,4 +8,3 @@ class Library(SQLModel, table=True):
     review: str | None = Field(default=None)
     image_url: str | None = Field(default=None)
     is_visible: bool = Field(default=True)
-    is_active: bool = Field(default=True)

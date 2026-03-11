@@ -6,4 +6,3 @@ class Timeline(SQLModel, table=True):
     year: int = Field()
     title: str = Field(index=True, unique=True)
     sub_title: str | None = Field(default=None)
-    is_active: bool = Field(default=True)

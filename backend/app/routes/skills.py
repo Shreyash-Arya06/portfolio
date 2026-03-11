@@ -11,24 +11,21 @@ from app.schemas.skills import CreateSkill, GetSkill, UpdateTitle, UpdateOrder
 
 router = APIRouter(prefix="/skills", tags=["skills_management"])
 
-@router.post("", response_model=GetSkill, status_code=status.HTTP_200_OK)
+@router.post("", response_model=GetSkill, status_code=status.HTTP_200_OK, dependencies=[Depends(get_current_admin)])
 async def add_skill(
         skill_data: CreateSkill,
-        current_admin: Admin = Depends(get_current_admin),
         session: AsyncSession = Depends(get_session)
 ):
     result = await session.execute(
         select(Skills)
-        .where(
-            Skills.title == skill_data.title
-        )
+        .where(Skills.title == skill_data.title)
     )
     existing_skill = result.scalars().first()
 
     if existing_skill:
         if existing_skill.is_active:
             raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
+                status_code=status.HTTP_409_CONFLICT,
                 detail="Skill already exists."
             )
         else:
@@ -63,12 +60,12 @@ async def get_skills(
 
     return result.scalars().all()
 
-@router.delete("/{skill_id}", status_code=status.HTTP_204_NO_CONTENT, dependencies=[Depends(get_current_admin)])
+@router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT, dependencies=[Depends(get_current_admin)])
 async def delete_skill(
-        skill_id: int,
+        id: int,
         session: AsyncSession = Depends(get_session)
 ):
-    skill = await session.get(Skills, skill_id)
+    skill = await session.get(Skills, id)
     if not skill or not skill.is_active:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -99,7 +96,7 @@ async def update_skill(
     )
     if conflict_result.scalars().first():
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
+            status_code=status.HTTP_409_CONFLICT,
             detail="This skill already exists."
         )
     
