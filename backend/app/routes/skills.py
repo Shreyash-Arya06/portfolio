@@ -5,13 +5,17 @@ from sqlalchemy import func
 
 from app.database.db import get_session
 from app.auth.auth import get_current_admin
-from app.models.admin import Admin
 from app.models.skills import Skills
 from app.schemas.skills import CreateSkill, GetSkill, UpdateTitle, UpdateOrder
 
 router = APIRouter(prefix="/skills", tags=["skills_management"])
 
-@router.post("", response_model=GetSkill, status_code=status.HTTP_200_OK, dependencies=[Depends(get_current_admin)])
+@router.post(
+    "/new",
+    response_model=GetSkill,
+    status_code=status.HTTP_201_CREATED,
+    dependencies=[Depends(get_current_admin)]
+)
 async def add_skill(
         skill_data: CreateSkill,
         session: AsyncSession = Depends(get_session)
@@ -23,18 +27,10 @@ async def add_skill(
     existing_skill = result.scalars().first()
 
     if existing_skill:
-        if existing_skill.is_active:
-            raise HTTPException(
-                status_code=status.HTTP_409_CONFLICT,
-                detail="Skill already exists."
-            )
-        else:
-            existing_skill.is_active = True
-            session.add(existing_skill)
-            await session.commit()
-            await session.refresh(existing_skill)
-
-            return existing_skill
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="Skill already exists."
+        )
 
     order_result = await session.execute(
         select(func.max(Skills.order))
@@ -48,43 +44,52 @@ async def add_skill(
 
     return new_skill
 
-@router.get("", response_model=list[GetSkill], status_code=status.HTTP_200_OK)
+@router.get(
+    "",
+    response_model=list[GetSkill],
+    status_code=status.HTTP_200_OK
+)
 async def get_skills(
         session: AsyncSession = Depends(get_session)
 ):
     result = await session.execute(
         select(Skills)
-        .where(Skills.is_active == True)
         .order_by(Skills.order)
     )
 
     return result.scalars().all()
 
-@router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT, dependencies=[Depends(get_current_admin)])
+@router.delete(
+    "/{skill_id}",
+    status_code=status.HTTP_204_NO_CONTENT,
+    dependencies=[Depends(get_current_admin)]
+)
 async def delete_skill(
-        id: int,
+        skill_id: int,
         session: AsyncSession = Depends(get_session)
 ):
-    skill = await session.get(Skills, id)
-    if not skill or not skill.is_active:
+    skill = await session.get(Skills, skill_id)
+    if not skill:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Skill does not exist."
         )
 
-    skill.is_active = False
-
-    session.add(skill)
+    await session.delete(skill)
     await session.commit()
 
-@router.patch("/update-title/{skill_id}", status_code=status.HTTP_200_OK, dependencies=[Depends(get_current_admin)])
+@router.patch(
+    "/update-title/{skill_id}",
+    status_code=status.HTTP_204_NO_CONTENT,
+    dependencies=[Depends(get_current_admin)]
+)
 async def update_skill(
         skill_id: int,
         skill_title: UpdateTitle,
         session: AsyncSession = Depends(get_session)
 ):
     skill = await session.get(Skills, skill_id)
-    if not skill or not skill.is_active:
+    if not skill:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Skill does not exist."
@@ -105,16 +110,18 @@ async def update_skill(
     session.add(skill)
     await session.commit()
 
-    return {"message": "Skill updated."}
-
-@router.patch("/update-order/{skill_id}", status_code=status.HTTP_204_NO_CONTENT, dependencies=[Depends(get_current_admin)])
+@router.patch(
+    "/update-order/{skill_id}",
+    status_code=status.HTTP_204_NO_CONTENT,
+    dependencies=[Depends(get_current_admin)]
+)
 async def update_skill_order(
         skill_id: int,
         skill_order: UpdateOrder,
         session: AsyncSession = Depends(get_session)
 ):
     skill = await session.get(Skills, skill_id)
-    if not skill or not skill.is_active:
+    if not skill:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Skill does not exist."

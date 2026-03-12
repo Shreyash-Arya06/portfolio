@@ -8,11 +8,21 @@ from app.schemas.admin import GetAdmin, AdminUpdate, AdminChangeCredentials, Adm
 
 router = APIRouter(prefix="/admin", tags=["admin_management"])
 
-@router.get("/me", response_model=GetAdmin, status_code=status.HTTP_200_OK)
-async def get_my_profile(current_admin = Depends(get_current_admin)):
+@router.get(
+    "/me",
+    response_model=GetAdmin,
+    status_code=status.HTTP_200_OK
+)
+async def get_my_profile(
+        current_admin = Depends(get_current_admin),
+        session: AsyncSession = Depends(get_session)
+):
     return current_admin
 
-@router.patch("/me", status_code=status.HTTP_204_NO_CONTENT)
+@router.patch(
+    "/me",
+    status_code=status.HTTP_204_NO_CONTENT
+)
 async def update_my_profile(
         update_data: AdminUpdate,
         current_admin: Admin = Depends(get_current_admin),
@@ -21,7 +31,10 @@ async def update_my_profile(
     update_dict = update_data.model_dump(exclude_unset=True)
 
     if not update_dict:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="No data provided to update.")
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="No data provided to update."
+        )
 
     for key, value in update_dict.items():
         setattr(current_admin, key, value)
@@ -29,7 +42,10 @@ async def update_my_profile(
     session.add(current_admin)
     await session.commit()
 
-@router.patch("/me/resume", status_code=status.HTTP_204_NO_CONTENT)
+@router.patch(
+    "/me/resume",
+    status_code=status.HTTP_204_NO_CONTENT
+)
 async def update_my_resume(
         resume_data: AdminUpdateResume,
         current_admin: Admin = Depends(get_current_admin),
@@ -39,7 +55,10 @@ async def update_my_resume(
     session.add(current_admin)
     await session.commit()
 
-@router.patch("/me/credentials", status_code=status.HTTP_204_NO_CONTENT)
+@router.patch(
+    "/me/credentials",
+    status_code=status.HTTP_204_NO_CONTENT
+)
 async def update_my_credentials(
         credentials: AdminChangeCredentials,
         current_admin: Admin = Depends(get_current_admin),
@@ -48,7 +67,10 @@ async def update_my_credentials(
     update_dict = credentials.model_dump(exclude_unset=True)
 
     if not update_dict:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="No credentials provided to update.")
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="No credentials provided to update."
+        )
 
     if "password" in update_dict:
         update_dict["password"] = get_password_hash(update_dict["password"])

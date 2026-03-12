@@ -19,12 +19,19 @@ class GoogleToken(BaseModel):
 
 GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
 
-@router.post("/login", response_model=Token, status_code=status.HTTP_200_OK)
+@router.post(
+    "/login",
+    response_model=Token,
+    status_code=status.HTTP_200_OK
+)
 async def login(
     form_data: OAuth2PasswordRequestForm = Depends(),
     session: AsyncSession = Depends(get_session)
 ):
-    result = await session.execute(select(Admin).where(Admin.email == form_data.username))
+    result = await session.execute(
+        select(Admin)
+        .where(Admin.email == form_data.username)
+    )
     admin = result.scalars().first()
 
     if not admin or not verify_password(form_data.password, admin.password):
@@ -37,7 +44,11 @@ async def login(
     access_token = create_access_token(data={"sub": admin.email})
     return {"access_token": access_token, "token_type": "bearer"}
 
-@router.post("/google", response_model=Token, status_code=status.HTTP_200_OK)
+@router.post(
+    "/google",
+    response_model=Token,
+    status_code=status.HTTP_200_OK
+)
 async def google_login(
     token_data: GoogleToken,
     session: AsyncSession = Depends(get_session)
@@ -49,9 +60,15 @@ async def google_login(
 
         google_email = id_info.get("email")
         if not google_email:
-            raise HTTPException(status_code=400, detail="No email provided by Google")
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="No email provided by Google"
+            )
 
-        result = await session.execute(select(Admin).where(Admin.email == google_email))
+        result = await session.execute(
+            select(Admin)
+            .where(Admin.email == google_email)
+        )
         admin = result.scalars().first()
 
         if not admin:
@@ -67,6 +84,10 @@ async def google_login(
             detail="Invalid Google token"
         )
 
-@router.get("/dashboard", status_code=status.HTTP_200_OK)
-async def admin_dashboard(current_admin: Admin = Depends(get_current_admin)):
+@router.get(
+    "/dashboard",
+    status_code=status.HTTP_200_OK)
+async def admin_dashboard(
+        current_admin: Admin = Depends(get_current_admin)
+):
     return {"message": f"Welcome back, {current_admin.email}. Here is your secret data."}
