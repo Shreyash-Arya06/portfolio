@@ -5,6 +5,7 @@ from app.routes import admin
 from app.routes import manage_admin
 from app.routes import skills
 from app.routes import categories
+from app.routes import timeline
 
 app = FastAPI()
 
@@ -20,3 +21,5 @@ app.include_router(manage_admin.router)
 app.include_router(skills.router)
 
 app.include_router(categories.router)
+
+app.include_router(timeline.router)

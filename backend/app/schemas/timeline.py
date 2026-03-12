@@ -1,13 +1,13 @@
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 class CreateTimelineEntry(BaseModel):
-    month: int
+    month: int = Field(ge=1, le=12)
     year: int
     title: str
     sub_title: str | None = None
 
 class UpdateTimelineEntry(BaseModel):
-    month: int | None = None
+    month: int | None = Field(default=None, ge=1, le=12)
     year: int | None = None
     title: str | None = None
     sub_title: str | None = None
