@@ -13,5 +13,5 @@ class GetSkill(BaseModel):
 class UpdateTitle(BaseModel):
     title: str
 
-class UpdateOrder(BaseModel):
-    order: int
+class SwapOrder(BaseModel):
+    id: int

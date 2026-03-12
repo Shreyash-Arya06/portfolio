@@ -9,8 +9,8 @@ class UpdateCategory(BaseModel):
 class UpdateVisibility(BaseModel):
     is_visible: bool
 
-class UpdateOrder(BaseModel):
-    order: int
+class SwapOrder(BaseModel):
+    id: int
 
 class GetCategory(BaseModel):
     id: int

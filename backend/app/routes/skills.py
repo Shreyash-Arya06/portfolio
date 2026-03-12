@@ -6,7 +6,7 @@ from sqlalchemy import func
 from app.database.db import get_session
 from app.auth.auth import get_current_admin
 from app.models.skills import Skills
-from app.schemas.skills import CreateSkill, GetSkill, UpdateTitle, UpdateOrder
+from app.schemas.skills import CreateSkill, GetSkill, UpdateTitle, SwapOrder
 
 router = APIRouter(prefix="/skills", tags=["skills_management"])
 
@@ -111,42 +111,38 @@ async def update_skill(
     await session.commit()
 
 @router.patch(
-    "/update-order/{skill_id}",
+    "/swap-order/{skill_id}",
     status_code=status.HTTP_204_NO_CONTENT,
     dependencies=[Depends(get_current_admin)]
 )
 async def update_skill_order(
         skill_id: int,
-        skill_order: UpdateOrder,
+        swap_data: SwapOrder,
         session: AsyncSession = Depends(get_session)
 ):
-    skill = await session.get(Skills, skill_id)
-    if not skill:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Skill does not exist."
-        )
-
-    if skill.order == skill_order.order:
+    if skill_id == swap_data.id:
         return
 
-    conflict_result = await session.execute(
-        select(Skills)
-        .where(Skills.order == skill_order.order)
-    )
-    conflict_skill = conflict_result.scalars().first()
-    if conflict_skill:
-        original_order = skill.order
-        conflict_skill.order = 0
-        session.add(conflict_skill)
-        await session.flush()
-        skill.order = skill_order.order
-        session.add(skill)
-        await session.flush()
-        conflict_skill.order = original_order
-        session.add(conflict_skill)
-    else:
-        skill.order = skill_order.order
-        session.add(skill)
+    skill_1 = await session.get(Skills, skill_id)
+    skill_2 = await session.get(Skills, swap_data.id)
+    if not skill_1 or not skill_2:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Either skills does not exist."
+        )
+
+    order_1 = skill_1.order
+    order_2 = skill_2.order
+
+    skill_1.order = 0
+    session.add(skill_1)
+    await session.flush()
+
+    skill_2.order = order_1
+    session.add(skill_2)
+    await session.flush()
+
+    skill_1.order = order_2
+    session.add(skill_1)
 
     await session.commit()

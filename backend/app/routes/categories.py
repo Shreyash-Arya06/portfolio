@@ -6,7 +6,7 @@ from sqlalchemy import func
 from app.database.db import get_session
 from app.auth.auth import get_current_admin
 from app.models.categories import Categories
-from app.schemas.categories import CreateCategory, UpdateCategory, UpdateVisibility, UpdateOrder, GetCategory
+from app.schemas.categories import CreateCategory, UpdateCategory, UpdateVisibility, SwapOrder, GetCategory
 
 router = APIRouter(prefix="/categories", tags=["categories"])
 
@@ -108,45 +108,39 @@ async def update_category(
     await session.commit()
 
 @router.patch(
-    "/update-order/{category_id}",
+    "/swap-order/{category_id}",
     status_code=status.HTTP_204_NO_CONTENT,
     dependencies=[Depends(get_current_admin)]
 )
 async def update_order(
         category_id: int,
-        updated_order: UpdateOrder,
+        swap_data: SwapOrder,
         session: AsyncSession = Depends(get_session)
 ):
-    category = await session.get(Categories, category_id)
-    if not category or not category.is_active:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Category does not exist.",
-        )
-
-    if category.order == updated_order.order:
+    if category_id == swap_data.id:
         return
 
-    result = await session.execute(
-        select(Categories)
-        .where(Categories.order == updated_order.order)
-    )
-    conflicting_category = result.scalars().first()
-    if conflicting_category:
-        original_order = category.order
-        conflicting_category.order = 0
-        session.add(conflicting_category)
-        await session.flush()
+    category_1 = await session.get(Categories, category_id)
+    category_2 = await session.get(Categories, swap_data.id)
+    if not category_1 or not category_2:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Either category does not exist.",
+        )
 
-        category.order = updated_order.order
-        session.add(category)
-        await session.flush()
+    order_1 = category_1.order
+    order_2 = category_2.order
 
-        conflicting_category.order = original_order
-        session.add(conflicting_category)
-    else:
-        category.order = updated_order.order
-        session.add(category)
+    category_1.order = 0
+    session.add(category_1)
+    await session.flush()
+
+    category_2.order = order_1
+    session.add(category_2)
+    await session.flush()
+
+    category_1.order = order_2
+    session.add(category_1)
 
     await session.commit()
 
@@ -161,7 +155,7 @@ async def update_visibility(
         session: AsyncSession = Depends(get_session)
 ):
     category = await session.get(Categories, category_id)
-    if not category or not category.is_active:
+    if not category:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Category does not exist.",
