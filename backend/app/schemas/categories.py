@@ -1,16 +1,19 @@
-from pydantic import BaseModel, ConfigDict
+from typing import Annotated
+from pydantic import BaseModel, ConfigDict, StringConstraints, Field
+
+SafeCategoryName = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=100)]
 
 class CreateCategory(BaseModel):
-    category: str
+    category: SafeCategoryName
 
 class UpdateCategory(BaseModel):
-    category: str
+    category: SafeCategoryName
 
 class UpdateVisibility(BaseModel):
     is_visible: bool
 
 class SwapOrder(BaseModel):
-    id: int
+    id: int = Field(gt=0)
 
 class GetCategory(BaseModel):
     id: int

@@ -1,7 +1,10 @@
-from pydantic import BaseModel, ConfigDict
+from typing import Annotated
+from pydantic import BaseModel, ConfigDict, StringConstraints, Field
+
+SafeTitle = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=100)]
 
 class CreateSkill(BaseModel):
-    title: str
+    title: SafeTitle
 
 class GetSkill(BaseModel):
     id: int
@@ -11,7 +14,7 @@ class GetSkill(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 class UpdateTitle(BaseModel):
-    title: str
+    title: SafeTitle
 
 class SwapOrder(BaseModel):
-    id: int
+    id: int = Field(gt=0)
