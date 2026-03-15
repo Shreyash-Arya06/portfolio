@@ -77,7 +77,7 @@ async def delete_category(
     await session.commit()
 
 @router.patch(
-    "/update-category/{category_id}",
+    "/{category_id}",
     status_code=status.HTTP_204_NO_CONTENT,
     dependencies=[Depends(get_current_admin)]
 )
@@ -145,7 +145,7 @@ async def update_order(
     await session.commit()
 
 @router.patch(
-    "update-visibility/{category_id}",
+    "/update-visibility/{category_id}",
     status_code=status.HTTP_204_NO_CONTENT,
     dependencies=[Depends(get_current_admin)]
 )

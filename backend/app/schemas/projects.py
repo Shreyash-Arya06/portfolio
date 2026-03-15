@@ -14,8 +14,6 @@ class UpdateProject(BaseModel):
     keywords: list[str] | None = None
     description: str | None = None
     image_url: str | None = None
-    order: int | None = None
-    is_visible: bool | None = None
     category_id: int | None = None
 
 class GetProject(BaseModel):
@@ -29,3 +27,9 @@ class GetProject(BaseModel):
     category_id: int
 
     model_config = ConfigDict(from_attributes=True)
+
+class SwapOrder(BaseModel):
+    project_2_id: int
+
+class UpdateVisibility(BaseModel):
+    is_visible: bool
