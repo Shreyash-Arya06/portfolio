@@ -1,10 +1,18 @@
+import re
 from typing import Annotated
 from pydantic import BaseModel, EmailStr, ConfigDict, HttpUrl, StringConstraints
+from pydantic.functional_validators import AfterValidator
+
+def check_password_complexity(password: str) -> str:
+    pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@_]).+$"
+    if not re.match(pattern, password):
+        raise ValueError("Password must include a capital letter, a small letter, a number, and either @ or _")
+    return password
 
 SafeName = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=100)]
 SafePosition = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=150)]
 SafeAbout = Annotated[str, StringConstraints(strip_whitespace=True, max_length=5000)]
-SafePassword = Annotated[str, StringConstraints(strip_whitespace=True, min_length=6, max_length=12, pattern=r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@_]).+$")]
+SafePassword = Annotated[str, StringConstraints(strip_whitespace=True, min_length=6, max_length=12), AfterValidator(check_password_complexity)]
 
 class Token(BaseModel):
     access_token: str
