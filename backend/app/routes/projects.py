@@ -105,7 +105,7 @@ async def update_project(
             detail="Project does not exist."
         )
 
-    new_data = update_data.model_dump(exclude_unset=True)
+    new_data = update_data.model_dump(exclude_unset=True, mode='json')
     if "category_id" in new_data and new_data["category_id"] is not None:
         category = await session.get(Categories, new_data["category_id"])
         if not category:
@@ -184,6 +184,9 @@ async def update_visibility(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Project does not exist."
         )
+
+    if project.is_visible == visibility_data.is_visible:
+        return
 
     project.is_visible = visibility_data.is_visible
     session.add(project)

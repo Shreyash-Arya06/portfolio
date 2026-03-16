@@ -23,7 +23,7 @@ class GetLibEntry(BaseModel):
     id: int
     title: str
     author: str | None = None
-    rating: float | None = None
+    rating: float
     review: str | None = None
     image_url: str | None = None
     is_visible: bool
