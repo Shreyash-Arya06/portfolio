@@ -11,7 +11,7 @@ import ConnectMe from "./pages/connectMe/ConnectMe.jsx";
 import NotFound from "./pages/notFound/NotFound.jsx";
 import Resume from "./pages/resume/Resume.jsx";
 
-
+import { AuthProvider } from "./context/AuthContext.jsx";
 import AdminLayout from "./layouts/adminLayout/AdminLayout.jsx";
 import UpdateAbout from "./pages/admin/updateAbout/UpdateAbout.jsx";
 import EditSkills from "./pages/admin/editSkills/EditSkills.jsx";
@@ -58,6 +58,8 @@ const router = createBrowserRouter([
 ]);
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    <AuthProvider>
     <RouterProvider router={router}/>
+    </AuthProvider>
   </StrictMode>,
 )

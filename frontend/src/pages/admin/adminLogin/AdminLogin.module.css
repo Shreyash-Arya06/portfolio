@@ -143,3 +143,20 @@
   box-shadow: none !important;
   filter: grayscale(1);
 }
+
+.backendError {
+  background-color: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: slideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.backendError .errorMessage {
+  margin-left: 0; 
+  font-weight: 500;
+  animation: none;
+}

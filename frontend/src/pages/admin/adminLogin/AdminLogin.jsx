@@ -1,13 +1,19 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import { useForm } from "react-hook-form";
 import ReCAPTCHA from "react-google-recaptcha";
 import { User, Lock, LogIn } from "lucide-react";
 
+import api from "../../../api/api";
+import { AuthContext } from "../../../context/AuthContext";
 import style from "./AdminLogin.module.css";
 
 const AdminLogin = () => {
   const [captchaVerified, setCaptchaVerified] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [loginError, setLoginError] = useState("");
   const captchaRef = useRef(null);
+
+  const { login } = useContext(AuthContext);
 
   const {
     register,
@@ -21,16 +27,49 @@ const AdminLogin = () => {
   const TEST_SITE_KEY = "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI";
 
   const onCaptchaChange = (token) => {
-    if (token) setCaptchaVerified(true);
+    if (token) {
+      setCaptchaVerified(true);
+      setLoginError("");
+    }
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     if (!captchaVerified) {
       alert("Please verify you are not a robot!");
       return;
     }
-    console.log("Login Successful:", data);
-    alert("Logged in successfully");
+
+    setIsLoading(true);
+    setLoginError("");
+
+    try {
+      const formData = new URLSearchParams();
+      formData.append("username", data.email);
+      formData.append("password", data.password);
+
+      const response = await api.post("/auth/login", formData, {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      });
+
+      const token = response.data.access_token;
+      login(token);
+      // Admin layout will look for redirection
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        setLoginError("Invalid email or password.");
+      } else {
+        setLoginError("Server error. Please try again later.");
+      }
+      console.log(error);
+      if (captchaRef.current) {
+        captchaRef.current.reset();
+      }
+      setCaptchaVerified(false);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -40,6 +79,12 @@ const AdminLogin = () => {
           <h2>Welcome Back</h2>
           <p>Please sign in to continue</p>
         </div>
+
+        {loginError && (
+          <div className={style.backendError}>
+            <span className={style.errorMessage}>{loginError}</span>
+          </div>
+        )}
 
         <form onSubmit={handleSubmit(onSubmit)} className={style.form}>
           <div className={style.fieldWrapper}>
@@ -109,12 +154,12 @@ const AdminLogin = () => {
           <button
             type="submit"
             className={`${style.loginBtn} ${
-              !captchaVerified ? style.disabled : ""
+              (!captchaVerified || isLoading) ? style.disabled : ""
             }`}
-            disabled={!captchaVerified}
+            disabled={!captchaVerified || isLoading}
           >
             <LogIn size={18} />
-            <span>Sign In</span>
+            <span>{isLoading ? "Signing In..." : "Sign In"}</span>
           </button>
         </form>
       </div>

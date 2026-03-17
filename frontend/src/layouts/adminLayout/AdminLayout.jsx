@@ -1,17 +1,21 @@
-import React, { useState, useRef, useEffect } from "react";
-import { NavLink, Outlet, useLocation } from "react-router-dom";
+import React, { useState, useRef, useEffect, useContext } from "react";
+import { NavLink, Outlet, useLocation, Navigate } from "react-router-dom";
 import { CircleChevronDown, CircleChevronUp } from "lucide-react";
 
 import style from "./AdminLayout.module.css";
 import photo from "../../assets/profilepic.png";
 
+import { AuthContext } from "../../context/AuthContext";
+
 const AdminLayout = () => {
   const location = useLocation();
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // on logging out, the menu conditions remains open, so after logging in, menu appears
+  const { isAuthenticated, logout } = useContext(AuthContext);
+  
   const [hoveredPos, setHoveredPos] = useState(null);
   const [activePos, setActivePos] = useState(null);
   const [isMobileView, setIsMobileView] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  
   const menuOptions = [
     "update-about",
     "edit-skills",
@@ -96,7 +100,7 @@ const AdminLayout = () => {
   };
 
   const menuToggle = () => {
-    if (isLoggedIn) {
+    if (isAuthenticated) {
       setIsMenuOpen(!isMenuOpen);
     } else {
       alert("Login required");
@@ -104,9 +108,17 @@ const AdminLayout = () => {
   };
 
   const logOut = () => {
-    setIsLoggedIn(false);
     setIsMenuOpen(false);
+    logout();
   };
+
+  if (!isAuthenticated && location.pathname !== "/admin-actions/admin-login") {
+    return <Navigate to="/admin-actions/admin-login" replace />;
+  }
+
+  if (isAuthenticated && location.pathname === "/admin-actions/admin-login") {
+    return <Navigate to="/admin-actions/update-about" replace />; 
+  }
 
   return (
     <>
@@ -124,7 +136,7 @@ const AdminLayout = () => {
           {!isMobileView && (
             <div
               className={
-                isLoggedIn ? style.optionsSection : style.optionsSectionDisabled
+                isAuthenticated ? style.optionsSection : style.optionsSectionDisabled
               }
               onMouseLeave={handleLeave}
             >
@@ -152,9 +164,7 @@ const AdminLayout = () => {
           )}
 
           <div className={style.loginSection}>
-            {!isLoggedIn ? (
-              <NavLink onClick={() => setIsLoggedIn(true)}>Login</NavLink>
-            ) : (
+            {isAuthenticated && (
               <p onClick={logOut}>Logout</p>
             )}
           </div>
@@ -164,7 +174,7 @@ const AdminLayout = () => {
             </div>
           )}
         </nav>
-        {isMobileView && isLoggedIn && (
+        {isMobileView && isAuthenticated && (
           <div className={`${style.menu} ${isMenuOpen ? style.menuOpen : ""}`}>
             {menuOptions.map((key) => (
               <NavLink
