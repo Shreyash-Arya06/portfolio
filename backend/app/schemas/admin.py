@@ -25,6 +25,7 @@ class AdminCreate(BaseModel):
     email: EmailStr
     password: SafePassword
     name: SafeName
+    image_url:HttpUrl
     pos_line_1: SafePosition
     pos_line_2: SafeName | None = None
     orgs_name: SafeName
@@ -33,6 +34,7 @@ class AdminCreate(BaseModel):
 
 class AdminUpdate(BaseModel):
     name: SafeName | None = None
+    image_url: HttpUrl | None = None
     pos_line_1: SafePosition | None = None
     pos_line_2: SafePosition | None = None
     orgs_name: SafeName | None = None
@@ -47,6 +49,7 @@ class AdminUpdateResume(BaseModel):
 
 class GetAdmin(BaseModel):
     name: str
+    image_url: HttpUrl
     pos_line_1: str
     pos_line_2: str | None = None
     orgs_name: str

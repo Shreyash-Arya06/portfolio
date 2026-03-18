@@ -26,9 +26,9 @@ app.add_middleware(
 )
 
 # Database Setup
-@app.on_event("startup")
-async def on_startup():
-    await init_db()
+# @app.on_event("startup")
+# async def on_startup():
+#     await init_db()
 
 # Routers
 app.include_router(admin.router)

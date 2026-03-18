@@ -6,8 +6,9 @@ from sqlalchemy import Column, DateTime, func, Text
 class Admin(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
     email: str = Field(index=True, unique=True)
-    password: str | None = Field(default=None)
+    password: str = Field()
     name: str = Field()
+    image_url: str = Field()
     pos_line_1: str = Field()
     pos_line_2: str | None = Field(default=None)
     orgs_name: str = Field()

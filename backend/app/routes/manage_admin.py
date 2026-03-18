@@ -14,8 +14,7 @@ router = APIRouter(prefix="/admin", tags=["admin_management"])
     status_code=status.HTTP_200_OK
 )
 async def get_my_profile(
-        current_admin = Depends(get_current_admin),
-        session: AsyncSession = Depends(get_session)
+        current_admin = Depends(get_current_admin)
 ):
     return current_admin
 
@@ -28,7 +27,7 @@ async def update_my_profile(
         current_admin: Admin = Depends(get_current_admin),
         session: AsyncSession = Depends(get_session)
 ):
-    update_dict = update_data.model_dump(exclude_unset=True)
+    update_dict = update_data.model_dump(exclude_unset=True, mode='json')
 
     if not update_dict:
         raise HTTPException(
@@ -51,7 +50,7 @@ async def update_my_resume(
         current_admin: Admin = Depends(get_current_admin),
         session: AsyncSession = Depends(get_session)
 ):
-    current_admin.resume_url = resume_data.resume_url
+    current_admin.resume_url = str(resume_data.resume_url)
     session.add(current_admin)
     await session.commit()
 
