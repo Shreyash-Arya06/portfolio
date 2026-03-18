@@ -21,7 +21,7 @@ httpcore==1.0.9
 httptools==0.7.1
 httpx==0.28.1
 idna==3.11
-packaging @ file:///C:/miniconda3/conda-bld/packaging_1761049137378/work
+packaging
 passlib==1.7.4
 pyasn1==0.6.2
 pyasn1_modules==0.4.2
